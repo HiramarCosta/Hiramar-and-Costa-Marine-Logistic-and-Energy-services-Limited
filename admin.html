@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Website Manager — Hiramar and Costa</title>
+<link rel="icon" type="image/png" href="assets/img/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  .admin-top {
+    background: var(--abyss); color: #fff;
+    padding: 16px 0; position: sticky; top: 0; z-index: 50;
+  }
+  .admin-top__inner { display: flex; align-items: center; gap: 16px; }
+  .admin-top__brand { display: flex; align-items: center; gap: 12px; margin-right: auto; text-decoration: none; }
+  .admin-top__brand img { height: 34px; width: auto; }
+  .admin-top__title {
+    font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
+    text-transform: uppercase; font-size: .92rem; color: #fff; letter-spacing: .02em;
+  }
+  .admin-who { font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+    text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+  /* ---- tabs ---- */
+  .tabs { background: var(--abyss-2); border-top: 1px solid rgba(255,255,255,.08); }
+  .tabs__inner { display: flex; gap: 4px; overflow-x: auto; }
+  .tab {
+    appearance: none; background: none; border: 0; cursor: pointer;
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(255,255,255,.62);
+    padding: 14px 18px; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  .tab:hover { color: #fff; }
+  .tab.is-on { color: #fff; border-bottom-color: var(--emerald); }
+  .tab__badge {
+    display: inline-block; margin-left: 7px; background: var(--emerald);
+    color: var(--abyss); border-radius: 20px; padding: 1px 7px;
+    font-size: .58rem; font-weight: 600;
+  }
+
+  .admin-wrap { max-width: 1080px; margin: 0 auto; padding: clamp(24px, 4vw, 44px) var(--gut) 90px; }
+  .panel {
+    background: var(--paper); border: 1px solid var(--hairline);
+    border-radius: var(--radius); padding: clamp(20px, 3vw, 34px);
+    margin-bottom: 24px;
+  }
+  .panel__h {
+    font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
+    text-transform: uppercase; font-size: 1.16rem; color: var(--forest); margin: 0 0 6px;
+  }
+  .panel__sub { color: var(--ink-soft); margin: 0 0 22px; font-size: .94rem; }
+
+  .grid2 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .grid3 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .grid3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+  .drop {
+    border: 2px dashed var(--hairline); border-radius: var(--radius);
+    padding: 26px; text-align: center; cursor: pointer; background: var(--mint);
+    transition: border-color .2s var(--ease), background .2s var(--ease);
+  }
+  .drop:hover, .drop.is-over { border-color: var(--emerald); background: rgba(8,168,72,.07); }
+  .drop input { display: none; }
+  .drop__preview { max-height: 180px; margin: 0 auto 12px; border-radius: var(--radius); }
+
+  .rowlist { display: grid; gap: 10px; }
+  .rowitem {
+    display: flex; align-items: center; gap: 14px;
+    border: 1px solid var(--hairline); border-radius: var(--radius);
+    padding: 11px 13px; background: var(--paper);
+  }
+  .rowitem img { width: 72px; height: 55px; object-fit: cover; border-radius: 2px;
+    flex: 0 0 auto; background: var(--mint-deep); }
+  .rowitem__main { flex: 1; min-width: 0; }
+  .rowitem__name {
+    font-family: var(--display); font-variation-settings: 'wdth' 100, 'wght' 700;
+    color: var(--forest); font-size: .96rem;
+  }
+  .rowitem__meta { font-family: var(--mono); font-size: .62rem; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); margin-top: 4px;
+    overflow-wrap: anywhere; }
+  .rowitem__acts { display: flex; gap: 7px; flex: 0 0 auto; flex-wrap: wrap; }
+
+  .mini {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: 7px 11px; border-radius: 2px; cursor: pointer;
+    border: 1px solid var(--hairline); background: transparent; color: var(--ink-soft);
+  }
+  .mini:hover { border-color: var(--forest); color: var(--forest); }
+  .mini--danger:hover { border-color: #C0453B; color: #C0453B; }
+  .mini--go { border-color: var(--emerald); color: var(--forest); }
+  .mini[disabled] { opacity: .5; cursor: default; }
+
+  /* ---- editable record cards ---- */
+  .rec {
+    border: 1px solid var(--hairline); border-radius: var(--radius);
+    padding: 16px 18px; margin-bottom: 12px; background: var(--paper);
+  }
+  .rec--new { border-style: dashed; background: var(--mint); }
+  .rec__head {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .rec__title {
+    font-family: var(--mono); font-size: .64rem; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--ink-soft); margin-right: auto;
+  }
+  .rec .field { margin-bottom: 12px; }
+  .rec label { display: block; font-family: var(--mono); font-size: .6rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 5px; }
+  .rec input[type=text], .rec input[type=number], .rec input[type=email],
+  .rec input[type=tel], .rec input[type=url], .rec textarea, .rec select {
+    width: 100%; font: inherit; font-size: .94rem; color: var(--ink);
+    padding: 9px 11px; border: 1px solid var(--hairline);
+    border-radius: 2px; background: var(--paper);
+  }
+  .rec textarea { min-height: 86px; resize: vertical; line-height: 1.55; }
+  .rec input:focus, .rec textarea:focus, .rec select:focus {
+    outline: 2px solid var(--emerald); outline-offset: 1px; border-color: transparent;
+  }
+  /* .field in the site stylesheet stacks its children; checkboxes read
+     as a row, so the direction is set back here. */
+  .rec__check { display: flex; flex-direction: row; align-items: center; gap: 9px; }
+  .rec__check input { width: auto; }
+  .rec__check label { margin: 0; }
+  .rec__acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+  .rec__note { font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--emerald); }
+  .rec__note--err { color: #C0453B; }
+
+  .group { border-left: 3px solid var(--emerald); padding-left: 16px; margin-bottom: 26px; }
+  .group__h { font-family: var(--display); font-variation-settings: 'wdth' 102, 'wght' 750;
+    text-transform: uppercase; font-size: .92rem; color: var(--forest); margin: 0 0 12px; }
+
+  /* ---- enquiries ---- */
+  .enq { border: 1px solid var(--hairline); border-radius: var(--radius);
+    padding: 15px 17px; margin-bottom: 11px; background: var(--paper); }
+  .enq.is-new { border-left: 3px solid var(--emerald); }
+  .enq__top { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .enq__who { font-family: var(--display); font-variation-settings: 'wdth' 100, 'wght' 700;
+    color: var(--forest); font-size: 1rem; }
+  .enq__when { font-family: var(--mono); font-size: .6rem; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); margin-left: auto; }
+  .pill {
+    font-family: var(--mono); font-size: .56rem; letter-spacing: .11em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 20px; border: 1px solid var(--hairline); color: var(--ink-soft);
+  }
+  .pill--quote     { border-color: var(--brass);   color: #8A6416; background: rgba(198,149,47,.11); }
+  .pill--equipment { border-color: var(--emerald); color: var(--forest); background: rgba(8,168,72,.10); }
+  .pill--team      { border-color: var(--forest);  color: var(--forest); background: rgba(0,80,32,.07); }
+  .pill--new       { border-color: var(--emerald); color: var(--forest); background: rgba(8,168,72,.14); }
+  .enq__body { margin: 11px 0 0; white-space: pre-wrap; line-height: 1.6; }
+  .enq__meta { font-family: var(--mono); font-size: .62rem; letter-spacing: .06em;
+    color: var(--ink-soft); margin-top: 9px; overflow-wrap: anywhere; }
+  .enq__meta a { color: var(--forest); }
+  .enq__acts { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 13px; align-items: center; }
+
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chipbtn {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: 7px 13px; border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--hairline); background: transparent; color: var(--ink-soft);
+  }
+  .chipbtn.is-on { background: var(--forest); border-color: var(--forest); color: #fff; }
+
+  .banner {
+    display: flex; gap: 15px; align-items: flex-start;
+    background: var(--abyss); color: #fff;
+    border-radius: var(--radius); padding: 18px 22px; margin-bottom: 24px;
+  }
+  .banner__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--emerald);
+    flex: 0 0 auto; margin-top: 7px; box-shadow: 0 0 0 4px rgba(8,168,72,.22); }
+  .banner--warn .banner__dot { background: var(--brass); box-shadow: 0 0 0 4px rgba(198,149,47,.22); }
+  .banner b { display: block; color: #fff; font-family: var(--display);
+    font-variation-settings: 'wdth' 102, 'wght' 700; text-transform: uppercase;
+    font-size: .8rem; letter-spacing: .05em; margin-bottom: 5px; }
+  .banner p { margin: 0; color: rgba(255,255,255,.78); font-size: .92rem; line-height: 1.55; }
+  .banner a { color: var(--emerald-lt); }
+  .banner code { font-family: var(--mono); font-size: .82rem; }
+
+  details.panel > summary {
+    cursor: pointer; list-style: none;
+    font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
+    text-transform: uppercase; font-size: 1rem; color: var(--forest);
+  }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary::before { content: '+ '; color: var(--emerald); }
+  details.panel[open] > summary::before { content: '– '; }
+  .setup code { font-family: var(--mono); font-size: .84rem;
+    background: rgba(0,80,32,.09); padding: 2px 6px; border-radius: 2px; }
+  .setup ol { margin: 14px 0 0; padding-left: 20px; }
+  .setup li { margin-bottom: 9px; }
+
+  .toolbar { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+  .hidden { display: none !important; }
+  .muted { color: var(--ink-soft); font-family: var(--mono); font-size: .68rem;
+    letter-spacing: .06em; }
+</style>
+</head>
+<body style="background: var(--mint);">
+
+<header class="admin-top">
+  <div class="shell admin-top__inner">
+    <a class="admin-top__brand" href="index.html">
+      <img src="assets/img/logo-mark-light.png" alt="">
+      <span class="admin-top__title">Website Manager</span>
+    </a>
+    <span class="admin-who hidden" id="whoAmI"></span>
+    <a class="btn btn--onDark btn--sm" href="index.html">View site</a>
+    <button class="btn btn--onDark btn--sm hidden" id="signOut" type="button">Sign out</button>
+  </div>
+
+  <div class="tabs hidden" id="tabs">
+    <div class="shell tabs__inner">
+      <button class="tab is-on" data-tab="equipment" type="button">Equipment</button>
+      <button class="tab" data-tab="enquiries" type="button">Enquiries<span class="tab__badge hidden" id="newCount"></span></button>
+      <button class="tab" data-tab="content" type="button">Content</button>
+      <button class="tab" data-tab="settings" type="button">Settings</button>
+    </div>
+  </div>
+</header>
+
+<div class="admin-wrap">
+
+  <!-- ===================== not connected ===================== -->
+  <div class="banner banner--warn hidden" id="setupBanner">
+    <span class="banner__dot"></span>
+    <div>
+      <b>Database not reachable</b>
+      <p id="setupBannerText">
+        Run <code>supabase/schema.sql</code> and <code>supabase/seed.sql</code> in your
+        Supabase project's SQL Editor, then reload this page.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== sign in ===================== -->
+  <section class="panel hidden" id="loginPanel">
+    <h1 class="panel__h">Sign in</h1>
+    <p class="panel__sub">Use the email and password created in Supabase &rarr; Authentication &rarr; Users.</p>
+    <form class="form" id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" autocomplete="username" required placeholder="you@company.com">
+      </div>
+      <div class="field">
+        <label for="loginPass">Password</label>
+        <input id="loginPass" type="password" autocomplete="current-password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+      </div>
+      <div class="field rec__check">
+        <input id="loginRemember" type="checkbox">
+        <label for="loginRemember">Keep me signed in on this computer</label>
+      </div>
+      <div class="form__status u-mono" id="loginStatus" role="status" aria-live="polite"></div>
+      <div class="toolbar">
+        <button class="btn btn--solid" type="submit" id="loginBtn">Sign in</button>
+        <button class="mini" type="button" id="forgotBtn">Forgotten your password?</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ===================== choose a new password ===================== -->
+  <section class="panel hidden" id="resetPanel">
+    <h1 class="panel__h">Choose a new password</h1>
+    <p class="panel__sub">
+      This link signed you in once. Set a password now and use it from here on.
+    </p>
+    <!-- novalidate: the form reports problems in the page's own style,
+         rather than a browser tooltip that looks foreign here -->
+    <form class="form" id="resetForm" novalidate>
+      <div class="field">
+        <label for="newPass">New password</label>
+        <input id="newPass" type="password" autocomplete="new-password" required
+               minlength="8" placeholder="At least 8 characters">
+      </div>
+      <div class="field">
+        <label for="newPass2">Type it again</label>
+        <input id="newPass2" type="password" autocomplete="new-password" required
+               minlength="8" placeholder="The same password">
+      </div>
+      <div class="form__status u-mono" id="resetStatus" role="status" aria-live="polite"></div>
+      <div><button class="btn btn--solid" type="submit" id="resetBtn">Save password</button></div>
+    </form>
+  </section>
+
+  <!-- ===================== EQUIPMENT ===================== -->
+  <div class="tabpane hidden" id="pane-equipment">
+    <section class="panel">
+      <h1 class="panel__h" id="addPanelH">Add equipment</h1>
+      <p class="panel__sub">Saved listings appear on the website immediately.</p>
+
+      <form class="form" id="addForm">
+        <label class="drop" id="drop" for="photo">
+          <img class="drop__preview hidden" id="preview" alt="">
+          <div id="dropText">
+            <strong>Choose a photograph</strong>
+            <p class="muted" style="margin:6px 0 0">or drag one here &middot; JPG or PNG</p>
+          </div>
+          <input id="photo" type="file" accept="image/*">
+        </label>
+
+        <div class="field" style="margin-top:18px">
+          <label for="eName">Equipment name <span class="req">*</span></label>
+          <input id="eName" type="text" required placeholder="Deck crane, 25 t knuckle boom">
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="eCategory">Category</label>
+            <input id="eCategory" type="text" list="catList" placeholder="Deck Equipment">
+            <datalist id="catList"></datalist>
+          </div>
+          <div class="field">
+            <label for="eCondition">Condition</label>
+            <input id="eCondition" type="text" list="condList" placeholder="Used &mdash; surveyed">
+            <datalist id="condList"></datalist>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <div class="field">
+            <label for="eYear">Year</label>
+            <input id="eYear" type="number" min="1950" max="2100" placeholder="2016">
+          </div>
+          <div class="field">
+            <label for="eLocation">Location</label>
+            <input id="eLocation" type="text" placeholder="Onne, Rivers State">
+          </div>
+          <div class="field">
+            <label for="eRef">Reference</label>
+            <input id="eRef" type="text" placeholder="HC-CRN-014">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ePrice">Price</label>
+          <input id="ePrice" type="text" placeholder="Price on application">
+        </div>
+
+        <div class="field">
+          <label for="eDescription">Description</label>
+          <textarea id="eDescription" placeholder="A sentence or two shown under the title on the listing card."></textarea>
+        </div>
+
+        <div class="form__status u-mono" id="addStatus" role="status" aria-live="polite"></div>
+        <div class="toolbar">
+          <button class="btn btn--solid" type="submit" id="addBtn">Save listing</button>
+          <button class="mini hidden" type="button" id="cancelEdit">Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h1 class="panel__h">Current listings</h1>
+      <p class="panel__sub" id="listCount">&nbsp;</p>
+      <div class="rowlist" id="rowlist"></div>
+    </section>
+  </div>
+
+  <!-- ===================== ENQUIRIES ===================== -->
+  <div class="tabpane hidden" id="pane-enquiries">
+    <section class="panel">
+      <h1 class="panel__h">Enquiries</h1>
+      <p class="panel__sub" id="enqCount">Everything the website has received.</p>
+
+      <div class="filters" id="enqFilters">
+        <button class="chipbtn is-on" data-filter="all" type="button">All</button>
+        <button class="chipbtn" data-filter="new" type="button">New</button>
+        <button class="chipbtn" data-filter="quote" type="button">Quote requests</button>
+        <button class="chipbtn" data-filter="equipment" type="button">Equipment</button>
+        <button class="chipbtn" data-filter="team" type="button">Talk to our team</button>
+        <button class="chipbtn" data-filter="general" type="button">General</button>
+      </div>
+
+      <div id="enqList"></div>
+
+      <div class="toolbar">
+        <button class="mini" type="button" id="enqRefresh">Refresh</button>
+        <button class="mini" type="button" id="enqExport">Download as CSV</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== CONTENT ===================== -->
+  <div class="tabpane hidden" id="pane-content">
+    <div class="banner">
+      <span class="banner__dot"></span>
+      <div>
+        <b>Everything on the website is editable here</b>
+        <p>Change any wording below and press Save on that block. The website
+           picks it up the moment a visitor loads the page.</p>
+      </div>
+    </div>
+    <div id="contentPanes"></div>
+  </div>
+
+  <!-- ===================== SETTINGS ===================== -->
+  <div class="tabpane hidden" id="pane-settings">
+    <section class="panel">
+      <h1 class="panel__h">Company details</h1>
+      <p class="panel__sub">These fill the contact panel, the footer and the page's search-engine listing.</p>
+      <div id="settingsForm"></div>
+    </section>
+
+    <details class="panel setup">
+      <summary>Setting up from scratch</summary>
+      <ol>
+        <li>Open your Supabase project &rarr; <strong>SQL Editor</strong> &rarr; New query.</li>
+        <li>Paste all of <code>supabase/schema.sql</code> and press Run.</li>
+        <li>Do the same with <code>supabase/seed.sql</code> to load the website copy.</li>
+        <li><strong>Authentication &rarr; Users &rarr; Add user</strong> — create your login.</li>
+        <li><strong>Authentication &rarr; Sign In / Providers</strong> — turn off
+            &ldquo;Allow new users to sign up&rdquo;.</li>
+      </ol>
+    </details>
+  </div>
+
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

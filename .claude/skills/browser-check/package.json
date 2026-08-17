@@ -1,0 +1,9 @@
+{
+  "name": "browser-check",
+  "private": true,
+  "type": "module",
+  "description": "Drives the user's real Chrome for visual checks",
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

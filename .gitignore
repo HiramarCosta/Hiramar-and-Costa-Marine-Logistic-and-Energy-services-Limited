@@ -1,0 +1,16 @@
+# Supabase CLI scratch — machine-local, regenerated on `supabase link`
+supabase/.temp/
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor / OS noise
+*.swp
+*~
+
+# Browser-check skill: installed packages and screenshots
+.claude/skills/browser-check/node_modules/
+.claude/skills/browser-check/shots/

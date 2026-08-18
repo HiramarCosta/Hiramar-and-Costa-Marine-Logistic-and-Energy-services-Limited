@@ -90,10 +90,10 @@
       }
     });
 
-    /* Navigation labels, in the header, the drawer, the draft-mark
-       rail and the footer. The links themselves stay put, so the
-       scroll spy set up in main.js keeps working. */
-    var navSelectors = '.nav__link, .drawer a, .draft-tick, .foot__list a';
+    /* Navigation labels, in the header, the drawer and the footer.
+       The links themselves stay put, so the scroll spy set up in
+       main.js keeps working. */
+    var navSelectors = '.nav__link, .drawer a, .foot__list a';
     Array.prototype.forEach.call(document.querySelectorAll(navSelectors), function (a) {
       var key = sectionKey(a.getAttribute('href'));
       if (!key) return;
@@ -106,10 +106,7 @@
         return;
       }
 
-      var label = one(a, '.draft-tick__label');
-      var num   = one(a, '.draft-tick__num');
-      if (label) { setText(label, s.nav_label); setText(num, s.nav_number); }
-      else       { setText(a, s.nav_label); }
+      setText(a, s.nav_label);
     });
 
     /* A section that is switched off should not be on the page. */

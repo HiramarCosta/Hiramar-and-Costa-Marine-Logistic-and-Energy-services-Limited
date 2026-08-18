@@ -187,7 +187,6 @@
       label: function (r) { return r.nav_label || r.key; },
       fields: [
         { k: 'nav_label',      label: 'Menu label',      type: 'text' },
-        { k: 'nav_number',     label: 'Rail number',     type: 'text' },
         { k: 'eyebrow',        label: 'Small label above the headline', type: 'text' },
         { k: 'title',          label: 'Headline',        type: 'text', required: true },
         { k: 'title_emphasis', label: 'Italic tail of the headline (home page only)', type: 'text' },

@@ -32,7 +32,6 @@
   /* --- metrics --- */
   --shell:   1240px;
   --gut:     clamp(20px, 5vw, 64px);
-  --rail:    68px;   /* draft-mark rail width */
   --radius:  4px;
   --ease:    cubic-bezier(.22, .61, .36, 1);
 }
@@ -109,87 +108,6 @@ h1, h2, h3, h4 {
   transition: top .2s var(--ease);
 }
 .skip-link:focus { top: 12px; }
-
-/* =============================================================
-   SIGNATURE — the draft-mark rail
-   Every hull carries a painted draft scale; the jack-up legs in
-   the hero photo show one. It doubles here as scroll position.
-   ============================================================= */
-.draft-rail {
-  position: fixed;
-  left: 0; top: 0; bottom: 0;
-  width: var(--rail);
-  z-index: 60;
-  pointer-events: none;
-  display: none;
-  mix-blend-mode: normal;
-}
-.draft-rail__line {
-  position: absolute;
-  left: 34px; top: 0; bottom: 0;
-  width: 1px;
-  background: var(--hairline);
-}
-.draft-rail__fill {
-  position: absolute;
-  left: 33px; top: 0;
-  width: 3px;
-  height: var(--scroll-pct, 0%);
-  background: linear-gradient(180deg, var(--emerald), var(--forest));
-  transition: height .12s linear;
-}
-.draft-rail__ticks {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  justify-content: space-between;
-  padding: 96px 0 64px;
-}
-.draft-tick {
-  position: relative;
-  display: flex; align-items: center; gap: 8px;
-  padding-left: 22px;
-  pointer-events: auto;
-}
-.draft-tick::before {
-  content: '';
-  position: absolute; left: 12px;
-  width: 12px; height: 1px;
-  background: var(--forest);
-  opacity: .38;
-  transition: width .3s var(--ease), opacity .3s var(--ease);
-}
-.draft-tick__num {
-  font-family: var(--mono);
-  font-size: .62rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--forest);
-  opacity: .45;
-  transition: opacity .3s var(--ease);
-}
-.draft-tick__label {
-  font-family: var(--mono);
-  font-size: .58rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--forest);
-  opacity: 0;
-  transform: translateX(-4px);
-  white-space: nowrap;
-  transition: opacity .3s var(--ease), transform .3s var(--ease);
-}
-.draft-tick.is-active::before { width: 20px; opacity: 1; background: var(--emerald); }
-.draft-tick.is-active .draft-tick__num { opacity: 1; color: var(--emerald); }
-.draft-tick.is-active .draft-tick__label { opacity: .9; transform: translateX(0); }
-
-/* over the dark bands the rail inverts so it stays readable */
-.draft-rail.on-dark .draft-rail__line { background: rgba(255,255,255,.20); }
-.draft-rail.on-dark .draft-tick::before { background: #fff; }
-.draft-rail.on-dark .draft-tick__num,
-.draft-rail.on-dark .draft-tick__label { color: #fff; }
-.draft-rail.on-dark .draft-tick.is-active::before { background: var(--emerald-lt); }
-.draft-rail.on-dark .draft-tick.is-active .draft-tick__num { color: var(--emerald-lt); }
-
-@media (min-width: 1160px) { .draft-rail { display: block; } }
 
 /* =============================================================
    HEADER
@@ -323,7 +241,6 @@ h1, h2, h3, h4 {
   display: flex; align-items: flex-end;
   overflow: hidden;
   background: var(--abyss);
-  padding-left: 0;
 }
 .hero__media { position: absolute; inset: 0; }
 .hero__media img {
@@ -349,7 +266,6 @@ h1, h2, h3, h4 {
   width: 100%;
   padding-block: clamp(64px, 12vh, 128px);
 }
-@media (min-width: 1160px) { .hero__inner { padding-left: var(--rail); } }
 
 .hero__eyebrow {
   display: inline-flex; align-items: center; gap: 12px;

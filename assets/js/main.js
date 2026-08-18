@@ -73,24 +73,15 @@
     });
   }
 
-  /* ---------- draft-mark rail + active nav ---------- */
+  /* ---------- active nav ---------- */
   var sections = ['home', 'about', 'mission', 'services', 'equipment', 'contact']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
 
-  var ticks    = Array.prototype.slice.call(document.querySelectorAll('.draft-tick'));
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
-  var fill     = document.querySelector('.draft-rail__fill');
-  var rail     = document.querySelector('.draft-rail');
-  var DARK_SECTIONS = ['home', 'mission'];
   var ticking  = false;
 
   function onScroll() {
-    var doc = document.documentElement;
-    var max = doc.scrollHeight - window.innerHeight;
-    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-    if (fill) fill.style.setProperty('--scroll-pct', pct.toFixed(2) + '%');
-
     // the section occupying the upper third of the viewport is "current"
     var mark = window.scrollY + window.innerHeight * 0.33;
     var current = sections[0];
@@ -99,12 +90,6 @@
     }
     var id = current ? current.id : 'home';
 
-    ticks.forEach(function (t) {
-      t.classList.toggle('is-active', t.getAttribute('data-tick') === id);
-    });
-
-    // invert the rail while a dark band is in view
-    if (rail) rail.classList.toggle('on-dark', DARK_SECTIONS.indexOf(id) !== -1);
     navLinks.forEach(function (a) {
       var href = a.getAttribute('href') || '';
       /* Links to another page — Equipment, for one — mark themselves

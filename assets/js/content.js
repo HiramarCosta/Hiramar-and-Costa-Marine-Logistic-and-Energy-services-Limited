@@ -34,21 +34,26 @@
 
   /* Which section a navigation link points at. There are three shapes
      of link now: "#mission" within a page, "index.html#mission" from
-     another page, and "/about-us" or "/equipment" — the two sections
-     that have a page to themselves. */
+     another page, and "/about-us", "/services" or "/equipment" — the
+     three sections that have a page to themselves. */
   function sectionKey(href) {
     href = String(href || '');
     var hash = href.indexOf('#');
     if (hash !== -1) return href.slice(hash + 1);
     if (/(^|\/)about-us(\.html)?$/.test(href))  return 'about';
+    if (/(^|\/)services(\.html)?$/.test(href))  return 'services';
     if (/(^|\/)equipment(\.html)?$/.test(href)) return 'equipment';
     return '';
   }
 
-  /* Two sections moved to pages of their own. An "#about" or
-     "#equipment" saved in the manager before the move still has to
-     arrive there. */
-  var OWN_PAGE = { '#about': '/about-us', '#equipment': '/equipment' };
+  /* Three sections moved to pages of their own. An "#about",
+     "#services" or "#equipment" saved in the manager before the move
+     still has to arrive there. */
+  var OWN_PAGE = {
+    '#about':     '/about-us',
+    '#services':  '/services',
+    '#equipment': '/equipment'
+  };
 
   function pageHref(href) {
     return OWN_PAGE[String(href)] || String(href);
@@ -261,10 +266,13 @@
   /* ---------- core services ---------- */
 
   function applyServices(groups) {
-    var wrap = document.querySelector('.svc');
-    if (!wrap || !groups || !groups.length) return;
+    if (!groups || !groups.length) return;
 
-    wrap.innerHTML = groups.map(function (g) {
+    /* The four groups and every service inside them, on /services.
+       The home page keeps only the heading and the opening line,
+       above the View All Services button, so it has no grid to fill. */
+    var wrap = document.querySelector('.svc');
+    if (wrap) wrap.innerHTML = groups.map(function (g) {
       var items = (g.services || []).map(function (s) {
         return '<li>' + esc(s.name) +
                (s.description ? ' <span class="svc__note">' + esc(s.description) + '</span>' : '') +
@@ -278,10 +286,11 @@
              '</article>';
     }).join('');
 
-    revealAll(wrap);
+    if (wrap) revealAll(wrap);
 
     /* "Seventeen services, four operating groups" — kept true
-       automatically as services are added or removed. */
+       automatically as services are added or removed, on the home
+       page's introduction as well as on /services itself. */
     var total = groups.reduce(function (n, g) { return n + (g.services || []).length; }, 0);
     var heading = document.querySelector('#services .band__title');
     if (heading && total) {

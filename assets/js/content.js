@@ -33,20 +33,25 @@
   function one(root, sel) { return root ? root.querySelector(sel) : null; }
 
   /* Which section a navigation link points at. There are three shapes
-     of link now: "#about" within a page, "index.html#about" from
-     another page, and "/equipment" — the listings' own page. */
+     of link now: "#mission" within a page, "index.html#mission" from
+     another page, and "/about-us" or "/equipment" — the two sections
+     that have a page to themselves. */
   function sectionKey(href) {
     href = String(href || '');
     var hash = href.indexOf('#');
     if (hash !== -1) return href.slice(hash + 1);
+    if (/(^|\/)about-us(\.html)?$/.test(href))  return 'about';
     if (/(^|\/)equipment(\.html)?$/.test(href)) return 'equipment';
     return '';
   }
 
-  /* The listings moved to their own page. A "#equipment" saved in the
-     manager before the move still has to arrive there. */
+  /* Two sections moved to pages of their own. An "#about" or
+     "#equipment" saved in the manager before the move still has to
+     arrive there. */
+  var OWN_PAGE = { '#about': '/about-us', '#equipment': '/equipment' };
+
   function pageHref(href) {
-    return String(href) === '#equipment' ? '/equipment' : String(href);
+    return OWN_PAGE[String(href)] || String(href);
   }
 
   function reveal(el) {
@@ -180,24 +185,38 @@
 
   /* ---------- about us ---------- */
 
+  /* The opening paragraph leads with the company's full name; it is
+     set in bold, as it is in the printed profile. */
+  function aboutBody(p, companyName) {
+    var body = String(p.body || '');
+    if (p.is_lead && companyName && body.indexOf(companyName) === 0) {
+      return '<strong>' + esc(companyName) + '</strong>' +
+             esc(body.slice(companyName.length));
+    }
+    return esc(body);
+  }
+
   function applyAbout(paragraphs, settings) {
-    var prose = document.querySelector('.about__prose');
-    if (!prose || !paragraphs || !paragraphs.length) return;
+    if (!paragraphs || !paragraphs.length) return;
 
     var companyName = (settings && settings.company_name) || '';
 
-    prose.innerHTML = paragraphs.map(function (p) {
-      var body = String(p.body || '');
-      var html = esc(body);
+    /* The whole profile, on /about-us. */
+    var prose = document.querySelector('.about__prose');
+    if (prose) {
+      prose.innerHTML = paragraphs.map(function (p) {
+        return '<p' + (p.is_lead ? ' class="lead"' : '') + '>' +
+               aboutBody(p, companyName) + '</p>';
+      }).join('');
+    }
 
-      /* The opening paragraph leads with the company's full name;
-         it is set in bold, as it is in the printed profile. */
-      if (p.is_lead && companyName && body.indexOf(companyName) === 0) {
-        html = '<strong>' + esc(companyName) + '</strong>' +
-               esc(body.slice(companyName.length));
-      }
-      return '<p' + (p.is_lead ? ' class="lead"' : '') + '>' + html + '</p>';
-    }).join('');
+    /* The home page keeps only the opening paragraph, above the
+       Learn More button — the rest is read on /about-us. */
+    var intro = document.querySelector('.about__intro');
+    if (intro) {
+      var lead = paragraphs.filter(function (p) { return p.is_lead; })[0] || paragraphs[0];
+      intro.innerHTML = aboutBody(lead, companyName);
+    }
   }
 
   function applyRegistry(facts) {

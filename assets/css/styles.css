@@ -547,13 +547,19 @@ h1, h2, h3, h4 {
    holds the same forest tone against the white ground. */
 .band__title--forest { color: var(--forest-deep); }
 
-.band__lede {
+.band__lede,
+.about__intro {
   margin-top: 18px;
   font-size: 1.06rem;
   color: var(--ink-soft);
   line-height: 1.62;
 }
 .band--dark .band__lede, .band--forest .band__lede { color: rgba(255,255,255,.76); }
+
+/* The home page's short About introduction. It is the opening
+   paragraph of the profile, so the company name keeps the same
+   weight and colour it has in full on /about-us. */
+.about__intro strong { color: var(--forest); font-weight: 700; }
 
 /* =============================================================
    ABOUT

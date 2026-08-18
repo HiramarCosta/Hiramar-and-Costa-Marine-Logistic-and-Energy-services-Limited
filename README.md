@@ -5,7 +5,8 @@ JavaScript — no build step, no framework, nothing to compile.
 
 ```
 Start Website.command   Double-click this to view the site on this Mac
-index.html              The website — home, about, mission, services, contact
+index.html              The website — home, about intro, mission, services, contact
+about-us.html           About Us, served at /about-us
 equipment.html          Equipment for Sale, served at /equipment
 admin.html              The manager — equipment, enquiries, content, settings
 assets/js/config.js       <-- the only file you normally need to edit
@@ -97,6 +98,20 @@ supabase db push                                  # applies supabase/migrations/
 
 `supabase db push` runs both migration files in order and does exactly what
 the two pastes above do. Steps 4 and 5 are still done in the dashboard.
+
+---
+
+## Where the About Us profile lives
+
+The full profile has its own page, `about-us.html`, served at `/about-us` —
+the company paragraphs and the registry plate beside them. The About link in
+the menu, on a computer and on a phone, opens it.
+
+The home page keeps a short About band: the same heading, the opening
+paragraph, and a **Learn More** button through to the page. Both are edited
+in the manager exactly as before — the heading under the **about** section,
+the paragraphs under **About Us** — and the home page shows whichever
+paragraph is marked as the lead.
 
 ---
 
@@ -205,10 +220,11 @@ There is no second website to host and no server to run.
 | | Address |
 | --- | --- |
 | Website | `https://hiramar-and-costa-marine-logistic-a.vercel.app/` |
+| About Us | `https://hiramar-and-costa-marine-logistic-a.vercel.app/about-us` |
 | Equipment | `https://hiramar-and-costa-marine-logistic-a.vercel.app/equipment` |
 | Manager | `https://hiramar-and-costa-marine-logistic-a.vercel.app/manager` — or `/admin.html`, both work |
 
-`vercel.json` adds the tidy `/equipment` and `/manager` addresses, and tells search engines to
+`vercel.json` adds the tidy `/about-us`, `/equipment` and `/manager` addresses, and tells search engines to
 skip it. The page is unlinked and marked `noindex`, but its address is still
 public — the sign-in is what protects your data. Never remove the security
 rules in `schema.sql`.

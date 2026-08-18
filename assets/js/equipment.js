@@ -145,15 +145,15 @@
         'and delivery terms.'
     };
 
-    /* The form is on the home page. If it happens to be on this page
-       too, fill it where it stands; otherwise park the enquiry and let
-       the home page pick it up on arrival. */
+    /* The form is on the contact page. If it happens to be on this
+       page too, fill it where it stands; otherwise park the enquiry
+       and let the contact page pick it up on arrival. */
     if (document.getElementById('contactForm')) {
       if (window.HC_prefillEnquiry) window.HC_prefillEnquiry(payload);
       if (window.HC_focusEnquiryForm) window.HC_focusEnquiryForm();
     } else {
       if (window.HC_stashEnquiry) window.HC_stashEnquiry(payload);
-      window.location.href = 'index.html#contact';
+      window.location.href = '/contact';
     }
   });
 

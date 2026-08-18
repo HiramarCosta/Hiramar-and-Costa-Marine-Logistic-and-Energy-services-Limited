@@ -5,7 +5,8 @@
     { "source": "/manager",   "destination": "/admin.html" },
     { "source": "/about-us",  "destination": "/about-us.html" },
     { "source": "/services",  "destination": "/services.html" },
-    { "source": "/equipment", "destination": "/equipment.html" }
+    { "source": "/equipment", "destination": "/equipment.html" },
+    { "source": "/contact",   "destination": "/contact.html" }
   ],
 
   "headers": [

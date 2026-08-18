@@ -208,6 +208,110 @@
     status.className = 'form__status u-mono is-shown ' + (ok ? 'is-ok' : 'is-err');
   }
 
+  /* ---------- field-by-field validation ----------
+     The database enforces these same limits in its insert policy, so
+     a message that fails here would have been rejected there anyway.
+     Checking in the browser first means the visitor is told which
+     field is wrong instead of being handed a database error. */
+
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function fieldOf(name) { return document.getElementById(name); }
+
+  function markField(name, message) {
+    var input = fieldOf(name);
+    var note  = document.getElementById('err-' + name);
+    var wrap  = input && input.closest ? input.closest('.field') : null;
+
+    if (note) note.textContent = message || '';
+    if (wrap) wrap.classList.toggle('is-bad', !!message);
+    if (input) {
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
+  }
+
+  function clearErrors() {
+    ['firstName', 'surname', 'email', 'phone', 'subject', 'enquiry']
+      .forEach(function (name) { markField(name, ''); });
+  }
+
+  /* Each rule returns the complaint to show, or nothing when the
+     value passes. They run in the order the fields are read. */
+  var RULES = [
+    ['firstName', function (v) {
+      if (!v) return 'Enter your first name.';
+      if (v.length > 120) return 'That first name is too long (120 characters at most).';
+    }],
+    ['surname', function (v) {
+      if (!v) return 'Enter your surname.';
+      if (v.length > 120) return 'That surname is too long (120 characters at most).';
+    }],
+    ['email', function (v) {
+      if (!v) return 'Enter your email address.';
+      if (v.length < 5 || v.length > 254 || !EMAIL_RE.test(v)) {
+        return 'Enter a complete email address, such as you@company.com.';
+      }
+    }],
+    ['phone', function (v) {
+      if (!v) return 'Enter your telephone number.';
+      if (v.replace(/\D/g, '').length < 7) return 'Enter a full telephone number, including the area or country code.';
+      if (v.length > 40) return 'That telephone number is too long.';
+      if (/[^\d\s+()\-.]/.test(v)) return 'Use only digits, spaces and + ( ) - in the telephone number.';
+    }],
+    ['subject', function (v) {
+      if (!v) return 'Choose what your enquiry is about.';
+      if (v.length > 120) return 'That subject is too long.';
+    }],
+    ['enquiry', function (v) {
+      if (!v) return 'Tell us what you need.';
+      if (v.length < 2) return 'Add a little more detail so we can help.';
+      if (v.length > 5000) return 'That message is too long (5,000 characters at most).';
+    }]
+  ];
+
+  /* True when everything passes. Otherwise every bad field is
+     marked, the first one is focused, and the status line says how
+     many need attention. */
+  function validate(data) {
+    var values = {
+      firstName: data.firstName, surname: data.surname, email: data.email,
+      phone: data.phone, subject: data.subject, enquiry: data.enquiry
+    };
+
+    var bad = [];
+    RULES.forEach(function (rule) {
+      var name = rule[0];
+      var complaint = rule[1](values[name] || '');
+      markField(name, complaint || '');
+      if (complaint) bad.push(name);
+    });
+
+    if (!bad.length) return true;
+
+    var first = fieldOf(bad[0]);
+    if (first) {
+      first.focus({ preventScroll: true });
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    say(bad.length === 1
+      ? 'One field needs your attention before this can be sent.'
+      : bad.length + ' fields need your attention before this can be sent.', false);
+    return false;
+  }
+
+  /* Clear a field's complaint as soon as the visitor edits it. */
+  if (form) {
+    ['input', 'change'].forEach(function (evt) {
+      form.addEventListener(evt, function (e) {
+        var el = e.target;
+        if (!el || !el.id) return;
+        var wrap = el.closest && el.closest('.field');
+        if (wrap && wrap.classList.contains('is-bad')) markField(el.id, '');
+      });
+    });
+  }
+
   /* ---------- which door the visitor came through ----------
      A quote request, a "talk to our team" click and an enquiry
      about a particular listing all land in the same form. Noting
@@ -226,9 +330,9 @@
   };
 
   /* ---------- carrying an enquiry between pages ----------
-     The form is on the home page; the listings are on /equipment.
-     An enquiry started over there is parked in the browser for a
-     moment and picked up when this page loads. */
+     The form is on /contact; the listings are on /equipment. An
+     enquiry started over there is parked in the browser for a
+     moment and picked up when the contact page loads. */
   var HANDOFF = 'hc_enquiry_handoff';
 
   window.HC_stashEnquiry = function (payload) {
@@ -265,8 +369,8 @@
   };
 
   window.HC_focusEnquiryForm = function () {
-    var contact = document.getElementById('contact');
-    if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var target = document.getElementById('contactForm') || document.getElementById('contact');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(function () {
       var first = document.getElementById('firstName');
       if (first) first.focus({ preventScroll: true });
@@ -278,8 +382,9 @@
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest && e.target.closest('[data-intent]');
     if (!trigger) return;
-    /* "#contact" here, "index.html#contact" from the equipment page. */
-    if (!/#contact$/.test(trigger.getAttribute('href') || '')) return;
+    /* "/contact" from every page, and "#contact" from anything saved
+       before the contact page existed. */
+    if (!/(#contact|(^|\/)contact(\.html)?)$/.test(trigger.getAttribute('href') || '')) return;
 
     var kind = trigger.getAttribute('data-intent');
     if (document.getElementById('contactForm')) window.HC_setEnquiryIntent(kind);
@@ -371,14 +476,8 @@
         enquiry:   form.enquiry.value.trim()
       };
 
-      if (!data.firstName || !data.surname || !data.email || !data.phone || !data.enquiry) {
-        say('Fill in every field marked with an asterisk, then send again.', false);
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-        say('That email address looks incomplete. Check it and send again.', false);
-        return;
-      }
+      if (!validate(data)) return;
+      clearErrors();
 
       /* Nowhere to send it — open the email app instead. */
       if (!API || !API.configured) {

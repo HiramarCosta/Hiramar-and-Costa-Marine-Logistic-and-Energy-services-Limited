@@ -925,6 +925,26 @@ h1, h2, h3, h4 {
 }
 .field input:invalid:not(:placeholder-shown) { border-color: #C0453B; }
 
+/* --- what the visitor is told when a field is wrong --- */
+.field__err {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: .72rem;
+  line-height: 1.45;
+  color: #8E2E26;
+  display: none;
+}
+.field.is-bad .field__err { display: block; }
+.field.is-bad input,
+.field.is-bad select,
+.field.is-bad textarea { border-color: #C0453B; background: rgba(192,69,59,.04); }
+.field.is-bad input:focus,
+.field.is-bad select:focus,
+.field.is-bad textarea:focus {
+  border-color: #C0453B;
+  box-shadow: 0 0 0 3px rgba(192,69,59,.16);
+}
+
 .form__status {
   padding: 14px 18px; border-radius: var(--radius);
   font-size: .92rem; display: none;
@@ -970,6 +990,24 @@ a.contact__v:hover { color: var(--emerald); }
   fill: currentColor;
   flex: 0 0 auto;
 }
+
+/* =============================================================
+   MAP — the registered office, on the contact page
+   ============================================================= */
+.map {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--mint);
+  line-height: 0;
+}
+.map__frame {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 46vw, 460px);
+  border: 0;
+}
+.map__note { margin: 20px 0 0; }
 
 /* =============================================================
    FOOTER

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" data-meta="own">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us — Hiramar and Costa Marine Logistics and Energy Services Limited</title>
+<meta name="description" content="Contact Hiramar and Costa — Marine Logistics and Energy Services Limited. Send an enquiry, call our office, or write to us about vessel chartering, offshore support, crude oil evacuation and marine equipment supply.">
+<meta name="theme-color" content="#005020">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact Us — Hiramar and Costa">
+<meta property="og:description" content="Telephone, email, registered office and enquiry form for Hiramar and Costa — Marine Logistics and Energy Services Limited. RC 9463814.">
+<meta property="og:image" content="assets/img/hero.jpg">
+
+<link rel="icon" type="image/png" href="assets/img/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ HEADER ============
+     The same masthead as the home page. Its links point back at the
+     home page's sections; Contact is this page, so it stays put. -->
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a class="brand" href="index.html" aria-label="Hiramar and Costa — home">
+      <img class="brand__logo" src="assets/img/logo-lockup.png"
+           alt="Hiramar and Costa — Marine Logistics and Energy Services Limited"
+           width="786" height="126">
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__link" href="index.html#home">Home</a>
+      <a class="nav__link" href="/about-us">About</a>
+      <a class="nav__link" href="index.html#mission">Mission</a>
+      <a class="nav__link" href="/services">Services</a>
+      <a class="nav__link" href="/equipment">Equipment</a>
+      <a class="nav__link is-active" href="/contact" aria-current="page">Contact</a>
+    </nav>
+
+    <a class="btn btn--solid btn--sm" href="/contact" data-intent="quote">Request a Quote</a>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="drawer" id="drawer" aria-label="Mobile">
+    <a href="index.html#home">Home</a>
+    <a href="/about-us">About</a>
+    <a href="index.html#mission">Mission</a>
+    <a href="/services">Services</a>
+    <a href="/equipment">Equipment</a>
+    <a href="/contact" aria-current="page">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ CONTACT ============
+     Kept as id="contact" so the heading, eyebrow and lede are still
+     edited from the manager exactly as they were on the home page,
+     and the enquiry still lands in the same enquiries table. -->
+<section class="band band--mint" id="contact">
+  <div class="shell">
+    <header class="band__head reveal">
+      <p class="band__eyebrow u-mono">Contact Us</p>
+      <h2 class="band__title">Tell us what you need moved, chartered or supplied</h2>
+      <p class="band__lede">
+        Send the details and our team will come back to you with availability,
+        scope and pricing.
+      </p>
+    </header>
+
+    <div class="contact__grid">
+      <form class="form reveal" id="contactForm" novalidate>
+        <div class="form__row">
+          <div class="field">
+            <label for="firstName">First name <span class="req">*</span></label>
+            <input id="firstName" name="firstName" type="text" placeholder="Adaeze" required autocomplete="given-name"
+                   aria-describedby="err-firstName">
+            <p class="field__err" id="err-firstName"></p>
+          </div>
+          <div class="field">
+            <label for="surname">Surname <span class="req">*</span></label>
+            <input id="surname" name="surname" type="text" placeholder="Okafor" required autocomplete="family-name"
+                   aria-describedby="err-surname">
+            <p class="field__err" id="err-surname"></p>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label for="email">Email address <span class="req">*</span></label>
+            <input id="email" name="email" type="email" placeholder="you@company.com" required autocomplete="email"
+                   aria-describedby="err-email">
+            <p class="field__err" id="err-email"></p>
+          </div>
+          <div class="field">
+            <label for="phone">Telephone number <span class="req">*</span></label>
+            <input id="phone" name="phone" type="tel" placeholder="+234 800 000 0000" required autocomplete="tel"
+                   aria-describedby="err-phone">
+            <p class="field__err" id="err-phone"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">Subject <span class="req">*</span></label>
+          <select id="subject" name="subject" required aria-describedby="err-subject">
+            <option value="">Choose an enquiry type…</option>
+            <option>General enquiry</option>
+            <option>Vessel chartering</option>
+            <option>Offshore support</option>
+            <option>Crude oil evacuation</option>
+            <option>Petroleum and energy products</option>
+            <option>Equipment purchase</option>
+            <option>Partnership or joint venture</option>
+          </select>
+          <p class="field__err" id="err-subject"></p>
+        </div>
+
+        <div class="field">
+          <label for="enquiry">Your message <span class="req">*</span></label>
+          <textarea id="enquiry" name="enquiry" placeholder="Scope, location, dates and any specifications we should know about." required
+                    aria-describedby="err-enquiry"></textarea>
+          <p class="field__err" id="err-enquiry"></p>
+        </div>
+
+        <div class="form__status u-mono" id="formStatus" role="status" aria-live="polite"></div>
+
+        <div>
+          <button class="btn btn--solid" type="submit" id="formSubmit">Send enquiry</button>
+        </div>
+      </form>
+
+      <aside class="contact__aside reveal">
+        <div class="contact__item contact__wa" id="waCard" hidden>
+          <span class="contact__k u-mono">WhatsApp</span>
+          <p class="contact__wa-note">
+            Prefer to send a quick message? Chat with our team directly and
+            we will pick it up during Lagos business hours.
+          </p>
+          <a class="btn btn--wa" id="cWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+        <div class="contact__item">
+          <span class="contact__k u-mono">Email</span>
+          <a class="contact__v" id="cEmail" href="#">&nbsp;</a>
+        </div>
+        <div class="contact__item">
+          <span class="contact__k u-mono">Telephone</span>
+          <a class="contact__v" id="cPhone" href="#">&nbsp;</a>
+        </div>
+        <div class="contact__item">
+          <span class="contact__k u-mono">Registered office</span>
+          <span class="contact__v" id="cAddress">&nbsp;</span>
+        </div>
+        <div class="contact__item">
+          <span class="contact__k u-mono">Business hours</span>
+          <span class="contact__v" id="cHours">&nbsp;</span>
+        </div>
+        <div class="contact__item">
+          <span class="contact__k u-mono">RC number</span>
+          <span class="contact__v" id="cRc">&nbsp;</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAP ============
+     The pin follows the registered office as it is edited in the
+     manager; content.js rewrites the frame and the directions link
+     from the saved address. -->
+<section class="band band--paper" id="map">
+  <div class="shell">
+    <header class="band__head reveal">
+      <p class="band__eyebrow u-mono">Find Us</p>
+      <h2 class="band__title">Our registered office</h2>
+    </header>
+
+    <div class="map reveal">
+      <iframe class="map__frame" id="cMap"
+              src="https://www.google.com/maps?q=Lagos%2C%20Nigeria&output=embed"
+              title="Map showing the registered office of Hiramar and Costa"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+    </div>
+
+    <p class="map__note reveal">
+      <a class="btn btn--ghost btn--sm" id="cDirections"
+         href="https://www.google.com/maps/search/?api=1&query=Lagos%2C%20Nigeria"
+         target="_blank" rel="noopener noreferrer">Get directions</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="shell foot__top">
+    <div>
+      <img class="foot__logo" src="assets/img/logo-footer.png" alt="Hiramar and Costa — Marine Logistics and Energy Services Limited" width="760" height="527">
+      <p class="foot__blurb">
+        A Nigerian marine logistics and energy services company delivering integrated
+        solutions across the maritime, oil and gas, energy, logistics and offshore sectors.
+      </p>
+    </div>
+
+    <div>
+      <span class="foot__h u-mono">Navigate</span>
+      <ul class="foot__list">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="/about-us">About Us</a></li>
+        <li><a href="index.html#mission">Mission &amp; Vision</a></li>
+        <li><a href="/services">Core Services</a></li>
+        <li><a href="/equipment">Equipment for Sale</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <span class="foot__h u-mono">Get in touch</span>
+      <ul class="foot__list">
+        <li><a id="fEmail" href="#">&nbsp;</a></li>
+        <li><a id="fPhone" href="#">&nbsp;</a></li>
+        <li id="fWhatsappItem" hidden><a id="fWhatsapp" href="#" target="_blank" rel="noopener noreferrer">&nbsp;</a></li>
+        <li><span id="fAddress">&nbsp;</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="shell foot__bar">
+    <span class="u-mono">&copy; <span id="year">2026</span> Hiramar and Costa Marine Logistics and Energy Services Ltd</span>
+    <span class="u-mono">RC 9463814 &middot; Incorporated in Nigeria</span>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/content.js"></script>
+</body>
+</html>

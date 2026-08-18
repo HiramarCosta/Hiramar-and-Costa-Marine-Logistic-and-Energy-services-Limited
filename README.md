@@ -5,10 +5,11 @@ JavaScript — no build step, no framework, nothing to compile.
 
 ```
 Start Website.command   Double-click this to view the site on this Mac
-index.html              The website — home, about intro, mission, services intro, contact
+index.html              The website — home, about intro, mission, services intro, contact intro
 about-us.html           About Us, served at /about-us
 services.html           Core Services, served at /services
 equipment.html          Equipment for Sale, served at /equipment
+contact.html            Contact Us — details, hours, map and the enquiry form, served at /contact
 admin.html              The manager — equipment, enquiries, content, settings
 assets/js/config.js       <-- the only file you normally need to edit
 assets/js/api.js        Talks to Supabase
@@ -224,9 +225,10 @@ There is no second website to host and no server to run.
 | About Us | `https://hiramar-and-costa-marine-logistic-a.vercel.app/about-us` |
 | Services | `https://hiramar-and-costa-marine-logistic-a.vercel.app/services` |
 | Equipment | `https://hiramar-and-costa-marine-logistic-a.vercel.app/equipment` |
+| Contact Us | `https://hiramar-and-costa-marine-logistic-a.vercel.app/contact` |
 | Manager | `https://hiramar-and-costa-marine-logistic-a.vercel.app/manager` — or `/admin.html`, both work |
 
-`vercel.json` adds the tidy `/about-us`, `/services`, `/equipment` and `/manager` addresses, and tells search engines to
+`vercel.json` adds the tidy `/about-us`, `/services`, `/equipment`, `/contact` and `/manager` addresses, and tells search engines to
 skip it. The page is unlinked and marked `noindex`, but its address is still
 public — the sign-in is what protects your data. Never remove the security
 rules in `schema.sql`.

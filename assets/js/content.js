@@ -43,16 +43,18 @@
     if (/(^|\/)about-us(\.html)?$/.test(href))  return 'about';
     if (/(^|\/)services(\.html)?$/.test(href))  return 'services';
     if (/(^|\/)equipment(\.html)?$/.test(href)) return 'equipment';
+    if (/(^|\/)contact(\.html)?$/.test(href))   return 'contact';
     return '';
   }
 
-  /* Three sections moved to pages of their own. An "#about",
-     "#services" or "#equipment" saved in the manager before the move
-     still has to arrive there. */
+  /* Four sections moved to pages of their own. An "#about",
+     "#services", "#equipment" or "#contact" saved in the manager
+     before the move still has to arrive there. */
   var OWN_PAGE = {
     '#about':     '/about-us',
     '#services':  '/services',
-    '#equipment': '/equipment'
+    '#equipment': '/equipment',
+    '#contact':   '/contact'
   };
 
   function pageHref(href) {
@@ -339,7 +341,10 @@
     }
     text('cAddress', s.address);
     text('fAddress', s.address);
+    text('cHours', s.office_hours);
     text('cRc', s.rc_number);
+
+    applyMap(s.address);
 
     setText(document.querySelector('.foot__blurb'), s.footer_blurb);
     /* The masthead shows the logo artwork, so the company name only
@@ -382,6 +387,27 @@
     }
   }
 
+  /* The pin follows the registered office as it is edited in the
+     manager. Both addresses are Google's keyless embed forms, so
+     there is no map key to keep out of this file. */
+  function applyMap(address) {
+    var place = String(address || '').trim();
+    if (!place) return;
+
+    var frame = document.getElementById('cMap');
+    if (frame) {
+      frame.setAttribute('src',
+        'https://www.google.com/maps?q=' + encodeURIComponent(place) + '&output=embed');
+      frame.setAttribute('title', 'Map showing ' + place);
+    }
+
+    var directions = document.getElementById('cDirections');
+    if (directions) {
+      directions.setAttribute('href',
+        'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(place));
+    }
+  }
+
   function setMeta(attr, key, value) {
     if (!value) return;
     var el = document.querySelector('meta[' + attr + '="' + key + '"]');
@@ -396,10 +422,18 @@
     if (!select || !list || !list.length) return;
 
     var chosen = select.value;
-    select.innerHTML = list.map(function (v) {
-      return '<option>' + esc(v) + '</option>';
-    }).join('');
-    if (chosen && list.indexOf(chosen) !== -1) select.value = chosen;
+
+    /* The empty first option is what makes "choose a subject" a real
+       requirement, so it survives the rebuild. Keep the wording the
+       page shipped with if it has one. */
+    var placeholder = select.querySelector('option[value=""]');
+    var prompt = placeholder ? placeholder.textContent : 'Choose an enquiry type\u2026';
+
+    select.innerHTML =
+      '<option value="">' + esc(prompt) + '</option>' +
+      list.map(function (v) { return '<option>' + esc(v) + '</option>'; }).join('');
+
+    select.value = (chosen && list.indexOf(chosen) !== -1) ? chosen : '';
   }
 
   var contactSection = document.getElementById('contact');

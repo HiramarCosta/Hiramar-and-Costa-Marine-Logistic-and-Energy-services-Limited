@@ -106,7 +106,11 @@
     // invert the rail while a dark band is in view
     if (rail) rail.classList.toggle('on-dark', DARK_SECTIONS.indexOf(id) !== -1);
     navLinks.forEach(function (a) {
-      a.classList.toggle('is-active', a.getAttribute('href') === '#' + id);
+      var href = a.getAttribute('href') || '';
+      /* Links to another page — Equipment, for one — mark themselves
+         and are none of the scroll spy's business. */
+      if (href.charAt(0) !== '#') return;
+      a.classList.toggle('is-active', href === '#' + id);
     });
 
     ticking = false;
@@ -221,13 +225,65 @@
     intent.equipmentName = (equipment && equipment.name) || null;
   };
 
+  /* ---------- carrying an enquiry between pages ----------
+     The form is on the home page; the listings are on /equipment.
+     An enquiry started over there is parked in the browser for a
+     moment and picked up when this page loads. */
+  var HANDOFF = 'hc_enquiry_handoff';
+
+  window.HC_stashEnquiry = function (payload) {
+    try { sessionStorage.setItem(HANDOFF, JSON.stringify(payload || {})); } catch (e) {}
+  };
+
+  function takeHandoff() {
+    var raw = null;
+    try {
+      raw = sessionStorage.getItem(HANDOFF);
+      sessionStorage.removeItem(HANDOFF);
+    } catch (e) {}
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch (e) { return null; }
+  }
+
+  /* Point the form at a listing: enquiry type, message, and the note
+     of where the visitor came from. */
+  window.HC_prefillEnquiry = function (payload) {
+    payload = payload || {};
+    window.HC_setEnquiryIntent(payload.kind || 'equipment', {
+      id: payload.equipmentId, name: payload.equipmentName
+    });
+
+    var select = document.getElementById('subject');
+    if (select && payload.subject) {
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === payload.subject) { select.selectedIndex = i; break; }
+      }
+    }
+
+    var textarea = document.getElementById('enquiry');
+    if (textarea && payload.message) textarea.value = payload.message;
+  };
+
+  window.HC_focusEnquiryForm = function () {
+    var contact = document.getElementById('contact');
+    if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () {
+      var first = document.getElementById('firstName');
+      if (first) first.focus({ preventScroll: true });
+    }, 600);
+  };
+
   /* Buttons that carry the visitor to the form declare their own
      intent. Anything pointing elsewhere is just navigation. */
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest && e.target.closest('[data-intent]');
     if (!trigger) return;
-    if ((trigger.getAttribute('href') || '') !== '#contact') return;
-    window.HC_setEnquiryIntent(trigger.getAttribute('data-intent'));
+    /* "#contact" here, "index.html#contact" from the equipment page. */
+    if (!/#contact$/.test(trigger.getAttribute('href') || '')) return;
+
+    var kind = trigger.getAttribute('data-intent');
+    if (document.getElementById('contactForm')) window.HC_setEnquiryIntent(kind);
+    else window.HC_stashEnquiry({ kind: kind });
   });
 
   var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -291,6 +347,15 @@
     window.location.href = 'mailto:' + to +
       '?subject=' + encodeURIComponent('Website enquiry — ' + data.subject) +
       '&body=' + encodeURIComponent(body);
+  }
+
+  /* An enquiry begun on /equipment arrives with the page. */
+  if (form) {
+    var handed = takeHandoff();
+    if (handed) {
+      window.HC_prefillEnquiry(handed);
+      if (handed.equipmentName) window.HC_focusEnquiryForm();
+    }
   }
 
   if (form) {

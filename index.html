@@ -50,7 +50,7 @@
       <a class="nav__link" href="#about">About</a>
       <a class="nav__link" href="#mission">Mission</a>
       <a class="nav__link" href="#services">Services</a>
-      <a class="nav__link" href="#equipment">Equipment</a>
+      <a class="nav__link" href="/equipment">Equipment</a>
       <a class="nav__link" href="#contact">Contact</a>
     </nav>
 
@@ -66,7 +66,7 @@
     <a href="#about">About</a>
     <a href="#mission">Mission</a>
     <a href="#services">Services</a>
-    <a href="#equipment">Equipment</a>
+    <a href="/equipment">Equipment</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
@@ -92,7 +92,7 @@
     </p>
 
     <div class="hero__cta">
-      <a class="btn btn--solid" href="#equipment">View equipment for sale</a>
+      <a class="btn btn--solid" href="/equipment">View equipment for sale</a>
       <a class="btn btn--onDark" href="#contact" data-intent="team">Talk to our team</a>
     </div>
   </div>
@@ -273,7 +273,10 @@
   </div>
 </section>
 
-<!-- ============ EQUIPMENT FOR SALE ============ -->
+<!-- ============ EQUIPMENT FOR SALE ============
+     The listings live on their own page now, at /equipment. This band
+     keeps the section in the run of the page — and its wording is still
+     edited from the manager, under the "equipment" section. -->
 <section class="band band--paper" id="equipment">
   <div class="shell">
     <header class="band__head reveal">
@@ -285,16 +288,9 @@
       </p>
     </header>
 
-    <div class="equip__bar reveal">
-      <p class="equip__count u-mono" id="equipCount">Loading listings&hellip;</p>
-      <div class="equip__filters" id="equipFilters"></div>
+    <div class="reveal">
+      <a class="btn btn--solid" href="/equipment">Browse equipment for sale</a>
     </div>
-
-    <div class="equip__grid" id="equipGrid">
-      <p class="equip__loading u-mono">Loading equipment&hellip;</p>
-    </div>
-
-    <p class="equip__note" id="equipNote" hidden></p>
   </div>
 </section>
 
@@ -414,7 +410,7 @@
         <li><a href="#about">About Us</a></li>
         <li><a href="#mission">Mission &amp; Vision</a></li>
         <li><a href="#services">Core Services</a></li>
-        <li><a href="#equipment">Equipment for Sale</a></li>
+        <li><a href="/equipment">Equipment for Sale</a></li>
         <li><a href="#contact">Contact Us</a></li>
       </ul>
     </div>
@@ -441,6 +437,5 @@
 <script src="assets/js/store.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/content.js"></script>
-<script src="assets/js/equipment.js"></script>
 </body>
 </html>

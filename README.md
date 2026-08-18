@@ -5,13 +5,14 @@ JavaScript — no build step, no framework, nothing to compile.
 
 ```
 Start Website.command   Double-click this to view the site on this Mac
-index.html              The website (all sections on one page)
+index.html              The website — home, about, mission, services, contact
+equipment.html          Equipment for Sale, served at /equipment
 admin.html              The manager — equipment, enquiries, content, settings
 assets/js/config.js       <-- the only file you normally need to edit
 assets/js/api.js        Talks to Supabase
 assets/js/content.js    Fills the page with what the database holds
 assets/js/main.js       Site behaviour and the contact form
-assets/js/equipment.js  The "Equipment for Sale" grid
+assets/js/equipment.js  The "Equipment for Sale" grid, filters and Enquire
 assets/js/store.js      Browser fallback, used if the database is unreachable
 supabase/schema.sql     The database: tables, security rules, read API
 supabase/seed.sql       The website's wording, ready to load
@@ -99,9 +100,23 @@ the two pastes above do. Steps 4 and 5 are still done in the dashboard.
 
 ---
 
+## Where the equipment listings live
+
+The listings have their own page, `equipment.html`, served at `/equipment`.
+The Equipment link in the menu — on a computer and on a phone — opens it, as
+do the buttons on the home page.
+
+The home page keeps a short Equipment band introducing it. Its wording is
+still edited in the manager under the **equipment** section, exactly as
+before, and both pages read that same wording.
+
+---
+
 ## Day to day: the manager
 
-Open `http://localhost:8080/admin.html` and sign in.
+Open the manager and sign in — `https://hiramar-and-costa-marine-logistic-a.vercel.app/manager` on the live
+site, or `http://localhost:8080/admin.html` on this Mac. It is the same
+manager either way; both edit the same database.
 
 **Forgotten the password?** Type your email into the sign-in form and press
 *Forgotten your password?*. Supabase emails a one-time link; opening it brings
@@ -177,20 +192,60 @@ already written out, so nothing is lost.
 
 ---
 
-## Putting the site online
+## Online: Vercel
 
-It is static files, so almost any host works:
+The site is hosted on Vercel, deployed from the GitHub repository. Vercel
+serves this folder exactly as it is — there is nothing to build.
 
-- **Netlify** — go to app.netlify.com/drop and drag this folder onto the page.
-- **Vercel**, **Cloudflare Pages**, **GitHub Pages** — same idea.
-- **Any cPanel host** — upload the folder contents to `public_html`.
+### The manager is already up there
 
-`admin.html` is unlinked and marked `noindex`, but its address is public. The
-sign-in is what protects your data — do not remove the security rules in
-`schema.sql`.
+`admin.html` is part of the same folder, so it went online with the site.
+There is no second website to host and no server to run.
 
-After going live, add your domain in Supabase under
-**Authentication → URL Configuration**.
+| | Address |
+| --- | --- |
+| Website | `https://hiramar-and-costa-marine-logistic-a.vercel.app/` |
+| Equipment | `https://hiramar-and-costa-marine-logistic-a.vercel.app/equipment` |
+| Manager | `https://hiramar-and-costa-marine-logistic-a.vercel.app/manager` — or `/admin.html`, both work |
+
+`vercel.json` adds the tidy `/equipment` and `/manager` addresses, and tells search engines to
+skip it. The page is unlinked and marked `noindex`, but its address is still
+public — the sign-in is what protects your data. Never remove the security
+rules in `schema.sql`.
+
+### One setting to change in Supabase
+
+Open **Authentication → URL Configuration** in the Supabase dashboard:
+
+- **Site URL** — your Vercel address, `https://hiramar-and-costa-marine-logistic-a.vercel.app`
+- **Redirect URLs** — add both:
+  - `https://hiramar-and-costa-marine-logistic-a.vercel.app/admin.html`
+  - `http://localhost:8080/admin.html` (so it still works on this Mac)
+
+Without this, the *Forgotten your password?* email sends you to the wrong
+address. Signing in normally works either way.
+
+### Where the uploads actually go
+
+Photographs and logos never touch Vercel. The manager sends them straight to
+Supabase Storage from your browser, and the website reads them back from the
+same place. So:
+
+- Uploading online works exactly as it does on this Mac.
+- New equipment, edited wording and uploaded photographs appear on the live
+  site straight away. **No redeploy is needed.**
+- A redeploy is only for changes to the files themselves — HTML, CSS, JS.
+  Push to GitHub `main` and Vercel rebuilds on its own.
+
+### Publishing a change to the files
+
+```
+git add -A
+git commit -m "what changed"
+git push
+```
+
+Vercel picks it up within a minute or so.
 
 ---
 

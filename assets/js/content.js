@@ -32,6 +32,23 @@
 
   function one(root, sel) { return root ? root.querySelector(sel) : null; }
 
+  /* Which section a navigation link points at. There are three shapes
+     of link now: "#about" within a page, "index.html#about" from
+     another page, and "/equipment" — the listings' own page. */
+  function sectionKey(href) {
+    href = String(href || '');
+    var hash = href.indexOf('#');
+    if (hash !== -1) return href.slice(hash + 1);
+    if (/(^|\/)equipment(\.html)?$/.test(href)) return 'equipment';
+    return '';
+  }
+
+  /* The listings moved to their own page. A "#equipment" saved in the
+     manager before the move still has to arrive there. */
+  function pageHref(href) {
+    return String(href) === '#equipment' ? '/equipment' : String(href);
+  }
+
   function reveal(el) {
     if (window.HC_reveal) window.HC_reveal(el); else el.classList.add('is-in');
   }
@@ -66,9 +83,9 @@
        scroll spy set up in main.js keeps working. */
     var navSelectors = '.nav__link, .drawer a, .draft-tick, .foot__list a';
     Array.prototype.forEach.call(document.querySelectorAll(navSelectors), function (a) {
-      var href = a.getAttribute('href') || '';
-      if (href.charAt(0) !== '#') return;
-      var s = byKey[href.slice(1)];
+      var key = sectionKey(a.getAttribute('href'));
+      if (!key) return;
+      var s = byKey[key];
       var li = a.closest('li');
 
       if (!s) {                       /* section was switched off */
@@ -108,7 +125,7 @@
       if (!cta || !cta.label) { btn.hidden = true; return; }
       btn.hidden = false;
       btn.textContent = cta.label;
-      if (cta.href) btn.setAttribute('href', cta.href);
+      if (cta.href) btn.setAttribute('href', pageHref(cta.href));
       if (cta.intent) btn.setAttribute('data-intent', cta.intent);
     });
   }
@@ -322,11 +339,14 @@
       if (item) item.hidden = false;
     }
 
-    /* Page metadata, for search results and shared links. */
-    if (s.meta_title) document.title = s.meta_title;
-    setMeta('name', 'description', s.meta_description);
-    setMeta('property', 'og:title', s.meta_title);
-    setMeta('property', 'og:description', s.meta_description);
+    /* Page metadata, for search results and shared links. A page that
+       carries its own — the equipment listings do — keeps it. */
+    if (document.documentElement.getAttribute('data-meta') !== 'own') {
+      if (s.meta_title) document.title = s.meta_title;
+      setMeta('name', 'description', s.meta_description);
+      setMeta('property', 'og:title', s.meta_title);
+      setMeta('property', 'og:description', s.meta_description);
+    }
 
     var rcLine = document.querySelector('.foot__bar .u-mono:last-child');
     if (rcLine && s.rc_number) {

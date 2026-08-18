@@ -134,29 +134,27 @@
     var item = all.filter(function (i) { return String(i.id) === id; })[0];
     if (!item) return;
 
-    if (window.HC_setEnquiryIntent) window.HC_setEnquiryIntent('equipment', item);
-
-    var subject = document.getElementById('subject');
-    if (subject) {
-      for (var i = 0; i < subject.options.length; i++) {
-        if (subject.options[i].value === 'Equipment purchase') { subject.selectedIndex = i; break; }
-      }
-    }
-
-    var enquiry = document.getElementById('enquiry');
-    if (enquiry) {
-      enquiry.value = 'I would like details on: ' + item.name +
+    var payload = {
+      kind: 'equipment',
+      equipmentId: item.id,
+      equipmentName: item.name,
+      subject: 'Equipment purchase',
+      message: 'I would like details on: ' + item.name +
         (item.reference ? ' (ref ' + item.reference + ')' : '') +
         '\n\nPlease send specifications, inspection report, current condition ' +
-        'and delivery terms.';
-    }
+        'and delivery terms.'
+    };
 
-    var contact = document.getElementById('contact');
-    if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(function () {
-      var first = document.getElementById('firstName');
-      if (first) first.focus({ preventScroll: true });
-    }, 600);
+    /* The form is on the home page. If it happens to be on this page
+       too, fill it where it stands; otherwise park the enquiry and let
+       the home page pick it up on arrival. */
+    if (document.getElementById('contactForm')) {
+      if (window.HC_prefillEnquiry) window.HC_prefillEnquiry(payload);
+      if (window.HC_focusEnquiryForm) window.HC_focusEnquiryForm();
+    } else {
+      if (window.HC_stashEnquiry) window.HC_stashEnquiry(payload);
+      window.location.href = 'index.html#contact';
+    }
   });
 
   /* ---------- loading ---------- */

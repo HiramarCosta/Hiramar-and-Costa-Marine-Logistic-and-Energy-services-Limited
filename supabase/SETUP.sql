@@ -921,7 +921,7 @@ insert into public.site_media (key, photo_url, alt) values
   ('logo_lockup','assets/img/logo-lockup.png',
    'Hiramar and Costa — Marine Logistics and Energy Services Limited'),
   ('logo_light', 'assets/img/logo-mark-light.png','Hiramar and Costa'),
-  ('logo_full',  'assets/img/logo-full-light.png',
+  ('logo_full',  'assets/img/logo-footer.png',
    'Hiramar and Costa — Marine Logistics and Energy Services Limited'),
   ('og_image',   'assets/img/hero.jpg',           'Hiramar and Costa')
 on conflict (key) do nothing;

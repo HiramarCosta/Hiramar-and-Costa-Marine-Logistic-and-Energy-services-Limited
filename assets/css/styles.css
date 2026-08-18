@@ -11,6 +11,7 @@
   --abyss-2:    #06301D;
   --forest:     #005020;   /* logo dark green */
   --forest-dim: #0A3D22;
+  --forest-deep:#0E582E;   /* core-services panels */
   --emerald:    #08A848;   /* logo bright green */
   --emerald-lt: #2ECC71;
   --brass:      #C6952F;   /* ship fittings, buoy markers */
@@ -542,6 +543,9 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 .band--dark .band__title, .band--forest .band__title { color: #fff; }
+/* Core Services carries its green in the panels, so the heading
+   holds the same forest tone against the white ground. */
+.band__title--forest { color: var(--forest-deep); }
 
 .band__lede {
   margin-top: 18px;
@@ -798,6 +802,32 @@ h1, h2, h3, h4 {
   margin-top: 3px;
 }
 
+/* Core services sit on white, so the green moves into the panels:
+   four solid forest blocks, white type, brass on hover. */
+.svc--forest .svc__col {
+  background: var(--forest-deep);
+  border: 1px solid var(--hairline-d);
+  border-top: 3px solid var(--emerald);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+              background .3s var(--ease), border-top-color .3s var(--ease);
+}
+/* The hover lift stays as it was; the fill lightens within the green
+   rather than towards white, which on this ground would wash the panel
+   out instead of lifting it. */
+.svc--forest .svc__col:hover {
+  background: #17683A;
+  box-shadow: 0 22px 44px rgba(4,35,21,.20);
+  border-top-color: var(--brass-lt);
+}
+.svc--forest .svc__h {
+  color: #fff;
+  border-bottom-color: var(--hairline-d);
+}
+.svc--forest .svc__list li { color: #fff; }
+.svc--forest .svc__list li::before { background: var(--emerald-lt); }
+.svc--forest .svc__blurb { color: #fff; }
+.svc--forest .svc__note  { color: var(--brass-lt); }
+
 /* Equipment description, between the title and the spec table. */
 .card__blurb {
   font-size: .93rem;
@@ -945,14 +975,18 @@ a.contact__v:hover { color: var(--emerald); }
   padding-block: clamp(52px, 7vh, 80px);
 }
 @media (min-width: 860px) { .foot__top { grid-template-columns: 1.4fr 1fr 1fr; } }
-.foot__plate {
-  display: block; width: fit-content;   /* block, so no baseline gap under the plate */
-  background: var(--mint);
-  border-radius: 14px;
-  padding: 22px 28px;
+/* The footer carries the original company logo, full colour, on the pale
+   ground it was drawn on — that field is part of the artwork, evenly
+   margined, so nothing is added here but the corner radius the rest of the
+   site uses. Width-driven, so it keeps its proportions as the column
+   narrows. Dark green on the dark footer would all but vanish; on its own
+   pale ground the wordmark and the anchor both read at this size. */
+.foot__logo {
+  display: block;
+  width: 260px; max-width: 70%; height: auto;
+  border-radius: var(--radius);
   margin-bottom: 26px;
 }
-.foot__logo { height: 104px; width: auto; display: block; }
 .foot__blurb { max-width: 42ch; font-size: .95rem; line-height: 1.6; }
 .foot__h {
   color: var(--brass-lt);
@@ -1056,6 +1090,8 @@ a.contact__v:hover { color: var(--emerald); }
 /* The ring itself — shared by all three placements. */
 .mv--beam .mv__cell::after,
 .svc--beam .svc__col::after,
+.svc--beam .svc__col::before,
+.plate--beam::before,
 .card--beam::after {
   content: "";
   position: absolute;
@@ -1085,16 +1121,52 @@ a.contact__v:hover { color: var(--emerald); }
 }
 .mv--beam .mv__cell:nth-child(2)::after { animation-delay: -3s; }
 
-/* --- Core Services: pale ground, so the beam runs deeper --- */
-.svc--beam .svc__col::after {
-  background: conic-gradient(from var(--beam-angle) at 50% 50%,
-    transparent 0turn, transparent .60turn,
-    var(--forest) .76turn, var(--emerald) .84turn,
-    var(--brass) .92turn, transparent 1turn);
+/* --- Core Services ---
+   These columns were pale when the beam was written, so it ran in
+   --forest/--emerald/--brass to stay legible against white. The
+   panels are now solid --forest-deep (#0E582E), which left a dark
+   green beam on a dark green ground: present, but invisible. It
+   now runs bright lemon so it reads against the block.
+
+   The ring is pulled out to the border box (top -3px clears the
+   3px emerald border, -1px clears the hairline on the other three
+   sides) so the light travels the block's outer edge instead of
+   hiding just inside it. Insets on an absolutely positioned
+   pseudo-element cost no layout, so the blocks do not move. */
+.svc--beam .svc__col {
+  --svc-beam: conic-gradient(from var(--beam-angle) at 50% 50%,
+    transparent 0turn, transparent .52turn,
+    rgba(32,207,108,.32) .68turn,
+    #20CF6C .82turn, #8CF7BC .90turn, #20CF6C .95turn,
+    transparent 1turn);
 }
-.svc--beam .svc__col:nth-child(2)::after { animation-delay: -1.5s; }
-.svc--beam .svc__col:nth-child(3)::after { animation-delay: -3s; }
-.svc--beam .svc__col:nth-child(4)::after { animation-delay: -4.5s; }
+.svc--beam .svc__col::after {
+  background: var(--svc-beam);
+  inset: -3px -1px -1px;
+  padding: 3px;                 /* beam thickness */
+  animation-duration: 3s;
+}
+/* The glow: the same travelling light on a wider band, blurred and
+   held back in opacity. Masking happens after filtering, so the
+   blur is contained by the band rather than spilling over the type
+   — hence the band is wide enough to give the blur room to fall
+   off. Sits under the crisp beam. */
+.svc--beam .svc__col::before {
+  background: var(--svc-beam);
+  inset: -3px -1px -1px;
+  padding: 11px;
+  z-index: 2;
+  opacity: .55;
+  filter: blur(6px);
+  animation-duration: 3s;
+}
+/* Stagger stays a quarter-cycle apart, rescaled to the 3s cycle. */
+.svc--beam .svc__col:nth-child(2)::after,
+.svc--beam .svc__col:nth-child(2)::before { animation-delay: -.75s; }
+.svc--beam .svc__col:nth-child(3)::after,
+.svc--beam .svc__col:nth-child(3)::before { animation-delay: -1.5s; }
+.svc--beam .svc__col:nth-child(4)::after,
+.svc--beam .svc__col:nth-child(4)::before { animation-delay: -2.25s; }
 
 /* --- Equipment: beam waits for attention, then lights up.
        The grid can hold twenty listings; twenty rings turning
@@ -1115,11 +1187,25 @@ a.contact__v:hover { color: var(--emerald); }
   animation-play-state: running;
 }
 
+/* --- Registry plate: dark ground like Mission & Vision, so the
+       same bright pass reads. It turns slower — the plate is
+       sticky and stays on screen for the whole About section,
+       and a 6s spin at the edge of the eye gets tiring. --- */
+.plate--beam::before {
+  background: conic-gradient(from var(--beam-angle) at 50% 50%,
+    transparent 0turn, transparent .62turn,
+    var(--emerald) .78turn, var(--emerald-lt) .84turn,
+    var(--brass-lt) .90turn, var(--brass) .95turn, transparent 1turn);
+  animation-duration: 9s;
+}
+
 /* Motion is decorative here. If it is unwelcome, hold the beam
    still rather than removing the edge entirely. */
 @media (prefers-reduced-motion: reduce) {
   .mv--beam .mv__cell::after,
   .svc--beam .svc__col::after,
+  .svc--beam .svc__col::before,
+  .plate--beam::before,
   .card--beam::after {
     animation: none;
   }

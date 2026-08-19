@@ -747,7 +747,7 @@ values
   ('home', 'Home', '00',
    'RC 9463814 · Incorporated in Nigeria',
    'Marine logistics', 'run to schedule',
-   'We charter vessels, support offshore operations, evacuate crude and supply marine equipment — for operators working Nigerian waters and international markets.',
+   'We support offshore operations, supply marine equipment, evacuate crude and charter vessels.',
    jsonb_build_object(
      'cta_primary',   jsonb_build_object('label', 'View equipment for sale', 'href', '#equipment'),
      'cta_secondary', jsonb_build_object('label', 'Talk to our team',        'href', '#contact',   'intent', 'team')

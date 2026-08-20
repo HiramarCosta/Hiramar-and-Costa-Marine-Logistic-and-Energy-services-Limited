@@ -290,9 +290,11 @@
 
     if (wrap) revealAll(wrap);
 
-    /* "Seventeen services, four operating groups" — kept true
-       automatically as services are added or removed, on the home
-       page's introduction as well as on /services itself. */
+    /* "Four operating groups" — kept true automatically as groups are
+       added or removed, on the home page's introduction as well as on
+       /services itself. A heading that also counts the services, as
+       this one used to ("Seventeen services, four operating groups"),
+       still has that number kept true as well. */
     var total = groups.reduce(function (n, g) { return n + (g.services || []).length; }, 0);
     var heading = document.querySelector('#services .band__title');
     if (heading && total) {

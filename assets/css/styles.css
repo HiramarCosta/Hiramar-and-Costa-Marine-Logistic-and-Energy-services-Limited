@@ -347,7 +347,13 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .hero__inner {
   position: relative; z-index: 2;
   width: 100%;
-  padding-block: clamp(64px, 12vh, 128px);
+  /* The block stands on the floor of the hero. The section is
+     bottom-aligned, so the second figure below is the gap between the
+     buttons and the green capability strip that follows: 32px on a
+     short desktop, 48px on a tall one, never outside that. The first
+     figure keeps the headline clear of the masthead on the short,
+     wide viewports where the content grows past the minimum height. */
+  padding-block: clamp(72px, 14vh, 148px) clamp(32px, 4.2vh, 48px);
 }
 
 .hero__title {

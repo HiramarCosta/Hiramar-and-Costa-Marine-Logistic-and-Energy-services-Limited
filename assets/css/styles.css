@@ -34,6 +34,57 @@
   --gut:     clamp(20px, 5vw, 64px);
   --radius:  4px;
   --ease:    cubic-bezier(.22, .61, .36, 1);
+
+  /* --- heading scale ---------------------------------------------
+     One ladder for the whole site. Every heading on every page draws
+     its size from these five tokens, so the run of sizes is set here
+     and nowhere else.
+
+       tier          mobile   tablet   desktop
+       h1 hero         34       44       56
+       page title      32       38       48
+       h2 section      28       34       40
+       h3 subsection   21       23       26
+       label/eyebrow   12       14       14
+
+     The values below are the mobile end. Two media queries further
+     down carry each token to its tablet reading at 768px and its
+     desktop reading at 1200px, interpolating between the anchors so
+     nothing jumps at a breakpoint.
+     ---------------------------------------------------------------- */
+  --fs-h1:    34px;
+  --fs-page:  32px;
+  --fs-h2:    28px;
+  --fs-h3:    21px;
+  --fs-label: 12px;
+
+  --lh-h1:    1.08;
+  --lh-page:  1.15;
+  --lh-h2:    1.2;
+  --lh-h3:    1.25;
+}
+
+/* 480px -> 768px: mobile reading climbs to the tablet reading. */
+@media (min-width: 480px) {
+  :root {
+    --fs-h1:    clamp(34px, 3.4722vw + 17.333px, 44px);
+    --fs-page:  clamp(32px, 2.0833vw + 22px,     38px);
+    --fs-h2:    clamp(28px, 2.0833vw + 18px,     34px);
+    --fs-h3:    clamp(21px, 0.6944vw + 17.667px, 23px);
+    --fs-label: clamp(12px, 0.6944vw + 8.667px,  14px);
+  }
+}
+
+/* 768px -> 1200px: tablet reading climbs to the desktop reading,
+   then holds. Labels have already arrived at 14px and stay there. */
+@media (min-width: 768px) {
+  :root {
+    --fs-h1:    clamp(44px, 2.7778vw + 22.667px, 56px);
+    --fs-page:  clamp(38px, 2.3148vw + 20.222px, 48px);
+    --fs-h2:    clamp(34px, 1.3889vw + 23.333px, 40px);
+    --fs-h3:    clamp(23px, 0.6944vw + 17.667px, 26px);
+    --fs-label: 14px;
+  }
 }
 
 /* ---------- reset / base ---------- */
@@ -59,11 +110,24 @@ a { color: inherit; }
 h1, h2, h3, h4 {
   font-family: var(--display);
   font-weight: 800;
-  line-height: .98;
+  line-height: var(--lh-h2);
   letter-spacing: -.005em;
   margin: 0;
   font-variant-numeric: lining-nums;
+  /* Headings are the longest unbroken strings on the page, so they are
+     the ones that push a layout sideways. Balance the lines, and let a
+     word that is genuinely wider than its column break rather than
+     overflow it. */
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
+
+/* Untiered headings still land on the ladder rather than on the
+   browser default, so a heading added later is never off-scale. */
+h1 { font-size: var(--fs-h1);   line-height: var(--lh-h1); }
+h2 { font-size: var(--fs-h2);   line-height: var(--lh-h2); }
+h3 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
+h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 
 /* Expanded width axis — hull lettering */
 .u-hull {
@@ -79,6 +143,25 @@ h1, h2, h3, h4 {
   letter-spacing: .16em;
   text-transform: uppercase;
   font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The label tier of the heading ladder: every eyebrow and every small
+   heading-shaped label reads at one size. Tracking is left as it was
+   drawn — these are set in mono and uppercase, and the spacing is what
+   keeps them legible at this size.
+
+   Not on this list, deliberately: the capability strip, the filter
+   chips, the equipment spec rows, the card tags and the copyright line.
+   None of them is a heading, and each is sized to the piece of chrome
+   it sits in. */
+.band__eyebrow,
+.foot__h,
+.plate__title,
+.mv__k,
+.contact__k,
+.field label {
+  font-size: var(--fs-label);
+  line-height: 1.4;
 }
 
 .shell {
@@ -271,8 +354,8 @@ h1, h2, h3, h4 {
   color: #fff;
   font-variation-settings: 'wdth' 112, 'wght' 800;
   text-transform: uppercase;
-  font-size: clamp(2.15rem, 5.5vw, 4.35rem);
-  line-height: .95;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
   letter-spacing: -.012em;
   max-width: 19ch;
   text-wrap: balance;
@@ -427,7 +510,12 @@ h1, h2, h3, h4 {
 .band--dark  { background: var(--abyss); color: #fff; }
 .band--forest{ background: var(--forest); color: #fff; }
 
-.band__head { max-width: 62ch; margin-bottom: clamp(40px, 6vh, 68px); }
+/* The 62ch measure was set when the headings were large enough to need
+   the same short line as the copy. At the sizes on the ladder they no
+   longer do, and holding them to it broke short headings across two
+   lines with one word stranded on the second. The head block opens up,
+   and the reading measure moves down onto the copy where it belongs. */
+.band__head { max-width: 80ch; margin-bottom: clamp(40px, 6vh, 68px); }
 .band__eyebrow {
   display: flex; align-items: center; gap: 12px;
   color: var(--emerald);
@@ -442,10 +530,17 @@ h1, h2, h3, h4 {
 .band__title {
   font-variation-settings: 'wdth' 106, 'wght' 800;
   text-transform: uppercase;
-  font-size: clamp(1.65rem, 3.05vw, 2.5rem);
+  font-size: var(--fs-h2);
   color: var(--forest);
-  line-height: .98;
+  line-height: var(--lh-h2);
   text-wrap: balance;
+}
+/* The heading a page opens with — About Us, Core Services, Equipment,
+   Contact — is that page's title rather than one section among several,
+   so it takes the page-title step above the section heading. */
+.band__title--page {
+  font-size: var(--fs-page);
+  line-height: var(--lh-page);
 }
 .band--dark .band__title, .band--forest .band__title { color: #fff; }
 /* Core Services carries its green in the panels, so the heading
@@ -454,6 +549,7 @@ h1, h2, h3, h4 {
 
 .band__lede {
   margin-top: 18px;
+  max-width: 62ch;
   font-size: 1.06rem;
   color: var(--ink-soft);
   line-height: 1.62;
@@ -544,7 +640,10 @@ h1, h2, h3, h4 {
 @media (min-width: 860px) { .mv { grid-template-columns: 1fr 1fr; } }
 
 .mv__cell {
-  padding: clamp(34px, 4.6vw, 56px);
+  /* Trimmed from clamp(34px, 4.6vw, 56px): at laptop widths the old
+     padding left the heading about ten pixels short of two lines, and
+     it broke to three with one word on its own. */
+  padding: clamp(30px, 3.4vw, 50px);
   background: var(--abyss-2);
   position: relative;
   overflow: hidden;
@@ -562,7 +661,8 @@ h1, h2, h3, h4 {
 .mv__h {
   font-variation-settings: 'wdth' 106, 'wght' 800;
   text-transform: uppercase;
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
   color: #fff; margin-bottom: 16px;
 }
 .mv__p { color: rgba(255,255,255,.8); margin: 0; position: relative; z-index: 1; }
@@ -593,17 +693,31 @@ h1, h2, h3, h4 {
 }
 .band--mint .svc__col { background: var(--paper); }
 
+/* Four abreast is the narrowest the panels ever get — about 200px of
+   text width. A little of the side padding comes back there, which is
+   the difference between every heading holding to the two lines the
+   rule beneath it is spaced for, and one of them running to three. */
+@media (min-width: 1080px) { .svc__col { padding-inline: 18px; } }
+
 .svc__h {
   font-variation-settings: 'wdth' 102, 'wght' 800;
   text-transform: uppercase;
-  font-size: 1.08rem;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
   color: var(--forest);
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--hairline);
-  min-height: 2.6em;
+  /* Four columns side by side, so the rules under the headings line up
+     whether a heading takes one line or two. 2.5em is exactly two lines
+     at this line-height. */
+  min-height: 2.5em;
   display: flex; align-items: flex-end;
 }
+/* Stacked on one column, the four headings have nothing to line up
+   with, so the reserved second line comes off. */
+@media (max-width: 699px) { .svc__h { min-height: 0; } }
+
 .svc__list { list-style: none; margin: 0; padding: 0; }
 .svc__list li {
   position: relative;
@@ -679,14 +793,17 @@ h1, h2, h3, h4 {
   padding: 6px 11px; border-radius: 2px;
   backdrop-filter: blur(6px);
 }
-.card__body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+/* 18px at the sides rather than 22px: in the three-up grid that is the
+   difference between the title holding to two lines and running to
+   three. The vertical rhythm is unchanged. */
+.card__body { padding: 22px 18px 24px; display: flex; flex-direction: column; flex: 1; }
 .card__title {
   font-variation-settings: 'wdth' 102, 'wght' 800;
   text-transform: uppercase;
-  font-size: 1.04rem;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
   color: var(--forest);
   margin-bottom: 12px;
-  line-height: 1.1;
 }
 /* Optional description under a group heading, when one is written
    into the Content tab of the manager. */
@@ -801,7 +918,7 @@ h1, h2, h3, h4 {
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field label {
   font-family: var(--mono);
-  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  letter-spacing: .14em; text-transform: uppercase;
   color: var(--forest);
 }
 .field label .req { color: var(--brass); }
@@ -981,9 +1098,10 @@ a.contact__v:hover { color: var(--emerald); }
    that only fit on bigger viewports — pull both in.
    ============================================================= */
 @media (max-width: 720px) {
+  /* The width axis narrows so the headline still fits the column; the
+     size itself now comes from --fs-h1 and is not restated here. */
   .hero__title {
     font-variation-settings: 'wdth' 92, 'wght' 800;
-    font-size: clamp(1.72rem, 8.4vw, 2.7rem);
     max-width: none;
   }
   .capstrip__item .u-mono { font-size: .62rem; letter-spacing: .09em; }

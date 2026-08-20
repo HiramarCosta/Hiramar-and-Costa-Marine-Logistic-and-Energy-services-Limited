@@ -48,9 +48,12 @@
     border-radius: var(--radius); padding: clamp(20px, 3vw, 34px);
     margin-bottom: 24px;
   }
+  /* The manager's panel headings sit on the same ladder as the rest of
+     the site — the h3 step, which is what a panel head is. */
   .panel__h {
     font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
-    text-transform: uppercase; font-size: 1.16rem; color: var(--forest); margin: 0 0 6px;
+    text-transform: uppercase; font-size: var(--fs-h3); line-height: var(--lh-h3);
+    color: var(--forest); margin: 0 0 6px;
   }
   .panel__sub { color: var(--ink-soft); margin: 0 0 22px; font-size: .94rem; }
 

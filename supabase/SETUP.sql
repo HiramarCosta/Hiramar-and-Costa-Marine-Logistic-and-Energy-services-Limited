@@ -779,7 +779,7 @@ values
   ('contact', 'Contact', '10',
    'Contact Us',
    'Tell us what you need moved, chartered or supplied', null,
-   'Send the details and our team will come back to you with availability, scope and pricing.',
+   null,
    jsonb_build_object(
      'whatsapp_note', 'Prefer to send a quick message? Chat with our team directly and we will pick it up during Lagos business hours.',
      'submit_label',  'Send enquiry'

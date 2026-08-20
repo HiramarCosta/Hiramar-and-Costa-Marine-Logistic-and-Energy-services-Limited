@@ -267,17 +267,6 @@ h1, h2, h3, h4 {
   padding-block: clamp(64px, 12vh, 128px);
 }
 
-.hero__eyebrow {
-  display: inline-flex; align-items: center; gap: 12px;
-  color: var(--brass-lt);
-  border: 1px solid rgba(198,149,47,.42);
-  border-radius: 999px;
-  padding: 8px 16px;
-  margin-bottom: clamp(20px, 3vh, 30px);
-  background: rgba(4,35,21,.42);
-}
-.hero__eyebrow b { font-weight: 500; color: #fff; }
-
 .hero__title {
   color: #fff;
   font-variation-settings: 'wdth' 112, 'wght' 800;
@@ -304,7 +293,7 @@ h1, h2, h3, h4 {
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
 /* animated entrance */
-.hero__eyebrow, .hero__title, .hero__lede, .hero__cta {
+.hero__title, .hero__lede, .hero__cta {
   opacity: 0; transform: translateY(18px);
   animation: riseIn .9s var(--ease) forwards;
 }
@@ -982,7 +971,7 @@ a.contact__v:hover { color: var(--emerald); }
   .capstrip__track.is-rolling { animation: none !important; transform: none; }
   .capstrip::before { animation: none !important; }
   .capstrip__beam { display: none; }
-  .hero__eyebrow, .hero__title, .hero__lede, .hero__cta { opacity: 1; transform: none; }
+  .hero__title, .hero__lede, .hero__cta { opacity: 1; transform: none; }
 }
 
 
@@ -997,8 +986,7 @@ a.contact__v:hover { color: var(--emerald); }
     font-size: clamp(1.72rem, 8.4vw, 2.7rem);
     max-width: none;
   }
-  .hero__eyebrow { padding: 7px 13px; }
-  .hero__eyebrow.u-mono, .capstrip__item .u-mono { font-size: .62rem; letter-spacing: .09em; }
+  .capstrip__item .u-mono { font-size: .62rem; letter-spacing: .09em; }
   .band__title  { font-variation-settings: 'wdth' 98, 'wght' 800; }
   .brand__logo  { height: 34px; }
   .mv__h, .svc__h, .card__title { font-variation-settings: 'wdth' 96, 'wght' 800; }
@@ -1007,7 +995,6 @@ a.contact__v:hover { color: var(--emerald); }
 }
 
 @media (max-width: 400px) {
-  .hero__eyebrow.u-mono { font-size: .58rem; letter-spacing: .06em; }
   .btn { padding: 13px 20px; font-size: .76rem; }
 }
 

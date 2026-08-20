@@ -767,7 +767,7 @@ values
   ('services', 'Services', '06',
    'Core Services',
    'Seventeen services, four operating groups', null,
-   'From a vessel alongside to a pipeline tie-in, we cover the marine, energy and engineering scopes our clients need under one contract.',
+   'We cover the marine, energy and engineering scope of clients need.',
    '{}'::jsonb, 40),
 
   ('equipment', 'Equipment', '08',

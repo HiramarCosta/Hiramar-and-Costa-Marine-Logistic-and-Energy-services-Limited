@@ -557,6 +557,50 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .band--dark .band__lede, .band--forest .band__lede { color: rgba(255,255,255,.76); }
 
 /* =============================================================
+   LANDING-PAGE RHYTHM
+   Every band on the home page is a short introduction now — an
+   eyebrow, a heading, a line or two and the way through to the
+   page that carries the detail. The padding they inherit was
+   sized for bands that held their content, and at that measure
+   Core Services, Equipment and Contact ended up drifting the
+   better part of a screen apart. The home page takes its own,
+   tighter rhythm.
+
+   The figures below are half of each gap, because the band above
+   and the band below both put their padding into it: the space
+   between two sections comes to 96px on the desktop, 72px on the
+   tablet and 50px on the phone. Nothing is pulled with a negative
+   margin, so the bands cannot ride over one another.
+   ============================================================= */
+.page-home .band       { padding-block: 25px; }
+.page-home .band__head { margin-bottom: 24px; }
+
+/* The eyebrow is a <p>, and headings are the only elements the reset
+   takes the margin off, so it still carried the browser's own 1em
+   above it — fourteen pixels, sitting inside the band's top padding
+   and quietly widening every gap on the page. The band opens on its
+   padding and nothing else. */
+.page-home .band__eyebrow { margin-top: 0; }
+
+/* The row of buttons a band closes on. An inline-flex button sitting
+   in a block wrapper still drags a line box along with it, and the
+   leading under that line box added a dozen invisible pixels to every
+   gap below. Laying the row out as flex drops the strut, so the space
+   under a band is the padding and nothing else. */
+.band__act { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 14px; }
+
+
+@media (min-width: 768px) {
+  .page-home .band       { padding-block: 36px; }
+  .page-home .band__head { margin-bottom: 28px; }
+}
+
+@media (min-width: 1024px) {
+  .page-home .band       { padding-block: 48px; }
+  .page-home .band__head { margin-bottom: 32px; }
+}
+
+/* =============================================================
    ABOUT
    ============================================================= */
 .about__grid {

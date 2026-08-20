@@ -47,7 +47,7 @@ insert into public.page_sections
   (key, nav_label, nav_number, eyebrow, title, title_emphasis, lede, extra, sort_order)
 values
   ('home', 'Home', '00',
-   'RC 9463814 · Incorporated in Nigeria',
+   null,
    'Marine logistics', 'run to schedule',
    'We support offshore operations, supply marine equipment, evacuate crude and charter vessels.',
    jsonb_build_object(
@@ -59,7 +59,8 @@ values
   ('about', 'About', '02',
    'About Us',
    'Integrated solutions across maritime, oil and gas, and energy', null,
-   null, '{}'::jsonb, 20),
+   'Hiramar and Costa provides integrated marine logistics, offshore, oil and gas, and energy services. We support clients through vessel chartering, marine equipment supply, crude oil evacuation, engineering and dependable logistics solutions.',
+   '{}'::jsonb, 20),
 
   ('mission', 'Mission', '04',
    'Mission & Vision',

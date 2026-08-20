@@ -499,14 +499,6 @@ h1, h2, h3, h4 {
   color: var(--emerald);
 }
 
-/* The home page runs the same profile without the registry plate
-   beside it, so the column sets its own measure — a full shell
-   width of body copy is too long a line to read comfortably. */
-.about__prose--solo { max-width: 68ch; }
-
-/* Breathing room between the profile and the Learn More button. */
-.about__more { margin-top: clamp(32px, 4.5vh, 52px); }
-
 /* credential card — styled like a ship's registry plate */
 .plate {
   position: sticky;

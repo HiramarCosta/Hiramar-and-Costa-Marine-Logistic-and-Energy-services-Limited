@@ -215,8 +215,9 @@
       .filter(Boolean)
       .sort(function (a, b) { return b.length - a.length; });
 
-    /* The profile in full, on the home page and on /about-us alike —
-       the page on its own adds the registry plate beside it. */
+    /* The profile in full, on /about-us. The home page carries only
+       the heading and a short introduction, above the Learn More
+       About Us button, so it has no prose column to fill. */
     var prose = document.querySelector('.about__prose');
     if (prose) {
       prose.innerHTML = paragraphs.map(function (p) {
@@ -381,11 +382,6 @@
       setMeta('name', 'description', s.meta_description);
       setMeta('property', 'og:title', s.meta_title);
       setMeta('property', 'og:description', s.meta_description);
-    }
-
-    var rcLine = document.querySelector('.foot__bar .u-mono:last-child');
-    if (rcLine && s.rc_number) {
-      rcLine.textContent = 'RC ' + s.rc_number + ' · Incorporated in Nigeria';
     }
   }
 

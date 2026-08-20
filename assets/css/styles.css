@@ -463,19 +463,13 @@ h1, h2, h3, h4 {
    holds the same forest tone against the white ground. */
 .band__title--forest { color: var(--forest-deep); }
 
-.band__lede,
-.about__intro {
+.band__lede {
   margin-top: 18px;
   font-size: 1.06rem;
   color: var(--ink-soft);
   line-height: 1.62;
 }
 .band--dark .band__lede, .band--forest .band__lede { color: rgba(255,255,255,.76); }
-
-/* The home page's short About introduction. It is the opening
-   paragraph of the profile, so the company name keeps the same
-   weight and colour it has in full on /about-us. */
-.about__intro strong { color: var(--forest); font-weight: 700; }
 
 /* =============================================================
    ABOUT
@@ -504,6 +498,14 @@ h1, h2, h3, h4 {
   padding: .06em .12em 0 0;
   color: var(--emerald);
 }
+
+/* The home page runs the same profile without the registry plate
+   beside it, so the column sets its own measure — a full shell
+   width of body copy is too long a line to read comfortably. */
+.about__prose--solo { max-width: 68ch; }
+
+/* Breathing room between the profile and the Learn More button. */
+.about__more { margin-top: clamp(32px, 4.5vh, 52px); }
 
 /* credential card — styled like a ship's registry plate */
 .plate {

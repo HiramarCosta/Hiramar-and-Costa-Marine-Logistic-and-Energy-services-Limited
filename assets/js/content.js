@@ -189,13 +189,20 @@
 
   /* ---------- about us ---------- */
 
-  /* The opening paragraph leads with the company's full name; it is
-     set in bold, as it is in the printed profile. */
-  function aboutBody(p, companyName) {
+  /* The opening paragraph leads with the company's name, set in bold
+     as it is in the printed profile. The registered name and the short
+     one are both accepted — longest first, so "Hiramar and Costa —
+     Marine Logistics and Energy Services Limited" is not cut short at
+     "Hiramar and Costa" — which lets the copy open either way. */
+  function aboutBody(p, names) {
     var body = String(p.body || '');
-    if (p.is_lead && companyName && body.indexOf(companyName) === 0) {
-      return '<strong>' + esc(companyName) + '</strong>' +
-             esc(body.slice(companyName.length));
+    if (p.is_lead) {
+      for (var i = 0; i < names.length; i++) {
+        if (body.indexOf(names[i]) === 0) {
+          return '<strong>' + esc(names[i]) + '</strong>' +
+                 esc(body.slice(names[i].length));
+        }
+      }
     }
     return esc(body);
   }
@@ -203,23 +210,19 @@
   function applyAbout(paragraphs, settings) {
     if (!paragraphs || !paragraphs.length) return;
 
-    var companyName = (settings && settings.company_name) || '';
+    var s = settings || {};
+    var names = [s.company_name, s.short_name]
+      .filter(Boolean)
+      .sort(function (a, b) { return b.length - a.length; });
 
-    /* The whole profile, on /about-us. */
+    /* The profile in full, on the home page and on /about-us alike —
+       the page on its own adds the registry plate beside it. */
     var prose = document.querySelector('.about__prose');
     if (prose) {
       prose.innerHTML = paragraphs.map(function (p) {
         return '<p' + (p.is_lead ? ' class="lead"' : '') + '>' +
-               aboutBody(p, companyName) + '</p>';
+               aboutBody(p, names) + '</p>';
       }).join('');
-    }
-
-    /* The home page keeps only the opening paragraph, above the
-       Learn More button — the rest is read on /about-us. */
-    var intro = document.querySelector('.about__intro');
-    if (intro) {
-      var lead = paragraphs.filter(function (p) { return p.is_lead; })[0] || paragraphs[0];
-      intro.innerHTML = aboutBody(lead, companyName);
     }
   }
 

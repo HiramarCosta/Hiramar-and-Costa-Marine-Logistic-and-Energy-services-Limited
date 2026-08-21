@@ -718,6 +718,57 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 /* =============================================================
    ABOUT
    ============================================================= */
+/* --- the page's opening heading ---------------------------------
+   The profile's title is the longest heading on the site, and on
+   /about-us it was breaking across three lines with "and energy"
+   stranded on the last of them. Two things were holding it there.
+
+   The measure: .band__head is capped at 80ch, and ch is read off the
+   element's own font — Source Serif at body size — so the cap came
+   out around 720px. The heading is set in Archivo at heading size and
+   needed a little over 740px to sit on two lines, so it missed by a
+   hair. The cap moves to a flat 960px here, which clears two lines at
+   every size on the scale below and still stops the heading short of
+   the full 1112px shell.
+
+   The size: the h2 step tops out at 40px, and this one heading comes
+   down off it. It runs 26px on the phone to 34px by the tablet, then
+   climbs again from 34px to the 48px ceiling only on displays wider
+   than most desktops — so at an ordinary 1280-1600px window it reads
+   between 36px and 40px, smaller than it was.
+
+   Nothing forces a break. The wrap is left to text-wrap: balance,
+   inherited from .band__title, which evens the lines out at whatever
+   count the measure allows: two on the desktop, three on the tablet,
+   three or four on the phone.
+   ---------------------------------------------------------------- */
+.band__head--wide { max-width: 960px; }
+
+.band__title--about {
+  font-size: clamp(26px, 2.0833vw + 19.333px, 34px);
+  line-height: 1.15;
+}
+
+/* The narrowest phones. The size is already sitting on its 26px floor
+   here, so the only room left is on the width axis — the same lever
+   the NARROW SCREENS block pulls for every other heading, taken one
+   step further. Without it "Integrated" and "solutions" cannot share
+   a line on a 320px screen and the heading runs to five. */
+@media (max-width: 380px) {
+  /* Compound on purpose: the NARROW SCREENS block further down sets
+     'wdth' 98 on .band__title, and it comes later in the file. */
+  .band__title.band__title--about { font-variation-settings: 'wdth' 88, 'wght' 800; }
+}
+
+/* 1024px and up. The curve is continuous at the breakpoint — it opens
+   on the 34px the tablet finished at — and the 32px floor is there so
+   the rule cannot land above its band if the query is ever widened. */
+@media (min-width: 1024px) {
+  .band__title--about {
+    font-size: clamp(32px, 1.0174vw + 23.58px, 48px);
+  }
+}
+
 /* The registry plate used to sit in a second column beside this one.
    With the plate gone the profile is the whole band, so it takes a
    reading measure of its own rather than the width of the shell. */

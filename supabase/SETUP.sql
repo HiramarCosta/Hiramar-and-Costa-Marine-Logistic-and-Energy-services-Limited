@@ -756,7 +756,7 @@ values
 
   ('about', 'About', '02',
    'About Us',
-   'Integrated solutions across maritime, oil and gas, and energy', null,
+   'Integrated solutions across maritime, oil & gas, and energy', null,
    'Hiramar and Costa provides integrated marine logistics services to the offshore oil & gas and energy sectors. We support clients through vessel chartering, marine equipment supply, crude evacuation, engineering and installation.',
    '{}'::jsonb, 20),
 

@@ -199,6 +199,24 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   padding-inline: var(--gut);
 }
 
+/* The wide variant, used by the profile band on /about-us. That page is
+   one long run of prose with nothing beside it, so it opens up: a 1400px
+   outer bound rather than the 1240px shell, and page padding stated as a
+   share of the viewport — 6% on the desktop, 4% on the tablet, a flat
+   20px on the phone where a percentage would leave too little.
+
+   The padding is inside the 1400px, box-sizing being border-box
+   throughout, so the band can never be wider than the viewport and
+   nothing here can start a sideways scroll. */
+.shell--full {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px)  { .shell--full { padding-inline: 4%; } }
+@media (min-width: 1024px) { .shell--full { padding-inline: 6%; } }
+
 .sr-only {
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
@@ -727,9 +745,9 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
    element's own font — Source Serif at body size — so the cap came
    out around 720px. The heading is set in Archivo at heading size and
    needed a little over 740px to sit on two lines, so it missed by a
-   hair. The cap moves to a flat 960px here, which clears two lines at
-   every size on the scale below and still stops the heading short of
-   the full 1112px shell.
+   hair. The cap is lifted altogether: the heading takes the same
+   .shell--full measure the paragraphs take, and reaches as far right
+   as they do.
 
    The size: the h2 step tops out at 40px, and this one heading comes
    down off it. It runs 26px on the phone to 34px by the tablet, then
@@ -737,12 +755,14 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
    than most desktops — so at an ordinary 1280-1600px window it reads
    between 36px and 40px, smaller than it was.
 
-   Nothing forces a break. The wrap is left to text-wrap: balance,
-   inherited from .band__title, which evens the lines out at whatever
-   count the measure allows: two on the desktop, three on the tablet,
-   three or four on the phone.
+   Nothing forces a break. Below 1024px the wrap is left to
+   text-wrap: balance, inherited from .band__title, which evens the
+   lines out — the right thing on a phone, where there is no spare
+   width to fill. From 1024px up there is spare width, and balance
+   would leave it empty by holding both lines to the shorter of the
+   two, so the heading wraps normally there and fills the measure.
    ---------------------------------------------------------------- */
-.band__head--wide { max-width: 960px; }
+.band__head--wide { max-width: none; }
 
 .band__title--about {
   font-size: clamp(26px, 2.0833vw + 19.333px, 34px);
@@ -766,19 +786,34 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 @media (min-width: 1024px) {
   .band__title--about {
     font-size: clamp(32px, 1.0174vw + 23.58px, 48px);
+    text-wrap: wrap;
   }
 }
 
-/* The registry plate used to sit in a second column beside this one.
-   With the plate gone the profile is the whole band, so it takes a
-   reading measure of its own rather than the width of the shell. */
-.about__prose { max-width: 72ch; }
-.about__prose p { margin: 0 0 1.15em; }
+/* The profile used to hold a 72ch reading measure, which left the
+   right-hand half of the band empty. It runs the full width of
+   .shell--full now — no cap of its own, no cap on the paragraphs —
+   so the lines reach the same right edge as the heading above them.
+
+   That is a long line to read: at the 1400px bound it comes out near
+   150 characters, where 45 to 90 is the range prose is easiest to
+   track along. The 1.7 line-height below is doing what it can about
+   that, giving the eye a clear rail back to the start of the next
+   line. Putting a max-width back on .about__prose is the one change
+   that would undo it. */
+.about__prose { max-width: none; }
+
+/* One size for every paragraph, the opening one included, so the
+   column reads evenly all the way down: 17px on the phone and the
+   tablet, climbing to 18px by the time the shell reaches its bound. */
+.about__prose p {
+  margin: 0 0 1.15em;
+  font-size: clamp(17px, 0.1582vw + 15.785px, 18px);
+  line-height: 1.7;
+}
 .about__prose p:last-child { margin-bottom: 0; }
 .about__prose strong { color: var(--green-ink); font-weight: 700; }
 .about__prose .lead {
-  font-size: 1.22rem;
-  line-height: 1.55;
   color: var(--ink);
 }
 .about__prose .lead::first-letter {

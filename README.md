@@ -34,7 +34,6 @@ Everything on the page, not just the equipment:
 | `site_settings` | Company name, RC number, email, phone, WhatsApp, address, page title and description |
 | `page_sections` | The label, headline and opening line of every section, plus menu wording and order |
 | `about_paragraphs` | The About Us copy, one row per paragraph |
-| `registry_facts` | The registry plate beside About Us |
 | `capabilities` | The strip that travels under the hero photograph |
 | `value_statements` | Mission and Vision |
 | `service_groups` · `services` | The four operating groups and the services inside them |
@@ -106,8 +105,8 @@ the two pastes above do. Steps 4 and 5 are still done in the dashboard.
 ## Where the About Us profile lives
 
 The full profile has its own page, `about-us.html`, served at `/about-us` —
-the company paragraphs and the registry plate beside them. The About link in
-the menu, on a computer and on a phone, opens it.
+the company profile in full. The About link in the menu, on a computer and
+on a phone, opens it.
 
 The home page keeps a short About band: the same heading, the opening
 paragraph, and a **Learn More** button through to the page. Both are edited
@@ -152,8 +151,8 @@ where auto-fill does not run.
 - **Enquiries** — everything the website has received. Filter by type, mark
   progress, add notes, export to CSV.
 - **Content** — the wording of every section: headlines, About Us paragraphs,
-  the registry plate, the capability strip, Mission and Vision, the core
-  services, and the choices in the contact form's dropdown.
+  the capability strip, Mission and Vision, the core services, and the
+  choices in the contact form's dropdown.
 - **Settings** — company and contact details, and the page's search-engine
   title and description.
 

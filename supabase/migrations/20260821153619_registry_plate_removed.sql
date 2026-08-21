@@ -1,0 +1,35 @@
+-- =============================================================
+-- THE REGISTRY PLATE
+--
+-- The dark card of company details that stood beside the profile
+-- on /about-us — registered name, RC number, company type,
+-- governing act, registrar, sectors, coverage — is dropped. Its
+-- seven rows are deleted here.
+--
+-- Every line on it is said somewhere the visitor is already
+-- looking. The registered name is the logo in the bar and the
+-- name in the footer. The sectors and the coverage are the
+-- opening paragraph beside it, in sentences rather than in a
+-- ledger. The RC number is on /contact under the registered
+-- office, and in the incorporation paragraph of the profile
+-- itself. The plate collected all of it into a second column and
+-- said it a second time.
+--
+-- The registration details are staying on the site. It is only
+-- this card that goes: site_settings.rc_number still holds the
+-- number, /contact still prints it, and the profile still states
+-- it in prose.
+--
+-- The rows are deleted rather than hidden, and the table is left
+-- standing. registry_facts keeps its shape, its trigger, its row
+-- level security and its place in the content bundle, so a plate
+-- can be seeded back into it if one is ever wanted again. What
+-- would have to come back with it is the aside in about-us.html
+-- and applyRegistry in content.js — both gone from the site in
+-- the same change as this.
+--
+-- The Registry panel is out of the manager too, so nothing there
+-- writes to an empty table that no page reads.
+-- =============================================================
+
+delete from public.registry_facts;

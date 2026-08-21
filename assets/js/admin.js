@@ -211,20 +211,6 @@
       ]
     },
     {
-      table: 'registry_facts',
-      title: 'Registry panel',
-      sub: 'The list of company details printed beside About Us.',
-      order: 'sort_order.asc',
-      label: function (r) { return r.label; },
-      blank: { label: '', value: '', is_visible: true, sort_order: 100 },
-      fields: [
-        { k: 'label',      label: 'Label',  type: 'text', required: true },
-        { k: 'value',      label: 'Value',  type: 'text', required: true },
-        { k: 'sort_order', label: 'Order',  type: 'number' },
-        { k: 'is_visible', label: 'Show on the website', type: 'checkbox' }
-      ]
-    },
-    {
       table: 'capabilities',
       title: 'Capability strip',
       sub: 'The row that travels across the screen under the hero photograph.',

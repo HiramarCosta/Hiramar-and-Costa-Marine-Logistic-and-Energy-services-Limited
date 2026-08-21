@@ -3,8 +3,8 @@
 
    Fetches the entire website from Supabase in a single request
    and writes it into the page: hero, capability strip, about,
-   registry plate, mission and vision, core services, section
-   headings, navigation labels, contact details and footer.
+   mission and vision, core services, section headings,
+   navigation labels, contact details and footer.
 
    The copy already written into index.html is the fallback. If
    the database is slow, unreachable, or has not been set up yet,
@@ -227,21 +227,6 @@
     }
   }
 
-  function applyRegistry(facts) {
-    var plate = document.querySelector('.plate');
-    if (!plate || !facts || !facts.length) return;
-
-    var title = one(plate, '.plate__title');
-    plate.innerHTML =
-      (title ? title.outerHTML : '') +
-      facts.map(function (f) {
-        return '<div class="plate__row">' +
-                 '<span class="plate__k">' + esc(f.label) + '</span>' +
-                 '<span class="plate__v">' + esc(f.value) + '</span>' +
-               '</div>';
-      }).join('');
-  }
-
   /* ---------- mission and vision ---------- */
 
   function applyValues(rows, media) {
@@ -460,7 +445,6 @@
       applyMedia(data.media);
       applyCapabilities(data.capabilities);
       applyAbout(data.about, data.settings);
-      applyRegistry(data.registry);
       applyValues(data['values'], data.media);
       applyServices(data.service_groups);
       applyOptions(data.options);

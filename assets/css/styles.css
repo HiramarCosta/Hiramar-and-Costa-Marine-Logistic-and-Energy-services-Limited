@@ -65,7 +65,6 @@
   --lift-drawer: 0 24px 48px rgba(4, 35, 21, .14);
   --lift-panel:  0 22px 44px rgba(4, 35, 21, .11);
   --lift-card:   0 24px 46px rgba(4, 35, 21, .14);
-  --lift-plate:  0 20px 44px rgba(4, 35, 21, .18);
 
   /* Tells the browser which way the page reads, so native furniture
      — scrollbars, select menus, the caret — comes out to match. */
@@ -719,13 +718,10 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 /* =============================================================
    ABOUT
    ============================================================= */
-.about__grid {
-  display: grid; gap: clamp(32px, 5vw, 64px);
-  grid-template-columns: 1fr;
-  align-items: start;
-}
-@media (min-width: 940px) { .about__grid { grid-template-columns: 1.55fr .95fr; } }
-
+/* The registry plate used to sit in a second column beside this one.
+   With the plate gone the profile is the whole band, so it takes a
+   reading measure of its own rather than the width of the shell. */
+.about__prose { max-width: 72ch; }
 .about__prose p { margin: 0 0 1.15em; }
 .about__prose p:last-child { margin-bottom: 0; }
 .about__prose strong { color: var(--green-ink); font-weight: 700; }
@@ -742,51 +738,6 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   line-height: .78;
   padding: .06em .12em 0 0;
   color: var(--green-mark);
-}
-
-/* credential card — styled like a ship's registry plate */
-.plate {
-  position: sticky;
-  top: 104px;
-  background: var(--abyss);
-  color: #fff;
-  border-radius: var(--radius);
-  padding: 30px 28px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--lift-plate);
-}
-.plate::after {
-  content: '';
-  position: absolute; inset: 10px;
-  border: 1px solid rgba(198,149,47,.34);
-  border-radius: 2px;
-  pointer-events: none;
-}
-.plate__title {
-  color: var(--brass-lt);
-  padding-bottom: 16px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(255,255,255,.16);
-}
-.plate__row {
-  display: flex; justify-content: space-between; gap: 18px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255,255,255,.09);
-}
-.plate__row:last-child { border-bottom: 0; }
-.plate__k {
-  font-family: var(--mono); font-size: .64rem;
-  letter-spacing: .13em; text-transform: uppercase;
-  color: rgba(255,255,255,.52);
-  flex: 0 0 auto;
-}
-.plate__v {
-  font-family: var(--display);
-  font-variation-settings: 'wdth' 100, 'wght' 700;
-  font-size: .92rem; text-align: right;
-  color: #fff;
-  font-variant-numeric: lining-nums tabular-nums;
 }
 
 /* =============================================================
@@ -1273,7 +1224,6 @@ a.contact__v:hover { color: var(--green-mark); }
      letting it overflow the bar or squash. */
   .brand__logo  { width: auto; height: auto; max-height: 34px; max-width: 100%; }
   .mv__h, .svc__h, .card__title { font-variation-settings: 'wdth' 96, 'wght' 800; }
-  .plate { position: static; }
   .card__spec li { font-size: .64rem; }
 }
 
@@ -1326,7 +1276,6 @@ a.contact__v:hover { color: var(--green-mark); }
 .mv--beam .mv__cell::after,
 .svc--beam .svc__col::after,
 .svc--beam .svc__col::before,
-.plate--beam::before,
 .card--beam::after {
   content: "";
   position: absolute;
@@ -1422,25 +1371,12 @@ a.contact__v:hover { color: var(--green-mark); }
   animation-play-state: running;
 }
 
-/* --- Registry plate: dark ground like Mission & Vision, so the
-       same bright pass reads. It turns slower — the plate is
-       sticky and stays on screen for the whole About section,
-       and a 6s spin at the edge of the eye gets tiring. --- */
-.plate--beam::before {
-  background: conic-gradient(from var(--beam-angle) at 50% 50%,
-    transparent 0turn, transparent .62turn,
-    var(--emerald) .78turn, var(--emerald-lt) .84turn,
-    var(--brass-lt) .90turn, var(--brass) .95turn, transparent 1turn);
-  animation-duration: 9s;
-}
-
 /* Motion is decorative here. If it is unwelcome, hold the beam
    still rather than removing the edge entirely. */
 @media (prefers-reduced-motion: reduce) {
   .mv--beam .mv__cell::after,
   .svc--beam .svc__col::after,
   .svc--beam .svc__col::before,
-  .plate--beam::before,
   .card--beam::after {
     animation: none;
   }
@@ -1480,7 +1416,7 @@ a.contact__v:hover { color: var(--green-mark); }
   --ink-soft:   #A3BCAE;
   --hairline:   rgba(255, 255, 255, .13);
 
-  --abyss:      #03150C;   /* footer, dark bands, the plate      */
+  --abyss:      #03150C;   /* footer and dark bands              */
   --abyss-2:    #061D11;
 
   /* --- the brand, doing its jobs on a dark ground --- */
@@ -1507,7 +1443,6 @@ a.contact__v:hover { color: var(--green-mark); }
   --lift-drawer: 0 24px 48px rgba(0, 0, 0, .55);
   --lift-panel:  0 22px 44px rgba(0, 0, 0, .45);
   --lift-card:   0 24px 46px rgba(0, 0, 0, .50);
-  --lift-plate:  0 20px 44px rgba(0, 0, 0, .48);
 
   color-scheme: dark;
 }

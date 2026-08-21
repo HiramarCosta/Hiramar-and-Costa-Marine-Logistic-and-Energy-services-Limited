@@ -805,20 +805,6 @@ where not exists (select 1 from public.about_paragraphs);
 
 
 -- -------------------------------------------------------------
--- Registry plate
--- -------------------------------------------------------------
-insert into public.registry_facts (label, value, sort_order) values
-  ('Registered name', 'Hiramar and Costa',                10),
-  ('RC number',       '9463814',                          20),
-  ('Company type',    'Ltd by Shares',                    30),
-  ('Governing act',   'CAMA 2020',                        40),
-  ('Registrar',       'CAC Nigeria',                      50),
-  ('Sectors',         'Marine · Oil & Gas · Energy',      60),
-  ('Coverage',        'Nigeria & International',          70)
-on conflict (label) do nothing;
-
-
--- -------------------------------------------------------------
 -- Capability strip
 -- -------------------------------------------------------------
 insert into public.capabilities (label, number_label, sort_order) values

@@ -1,0 +1,10 @@
+# Hiramar and Costa — Marine Logistics and Energy Services Limited
+# The public pages are open to every search engine. The website
+# manager is not — it is staff-only and must never appear in results.
+
+User-agent: *
+Allow: /
+Disallow: /manager
+Disallow: /admin.html
+
+Sitemap: https://hiramarandcosta.com/sitemap.xml

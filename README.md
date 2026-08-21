@@ -268,6 +268,45 @@ Vercel picks it up within a minute or so.
 
 ---
 
+## Being found on Google
+
+The site is set up so search engines can read and list it. Three things do
+that work, and they are already in place:
+
+| File | What it does |
+| --- | --- |
+| `robots.txt` | Invites search engines in, and keeps the manager out |
+| `sitemap.xml` | Lists all five public pages so nothing is missed |
+| The `canonical` line in each page's `<head>` | Names the one true address for that page |
+
+### The one step that cannot be done from here
+
+Being crawlable is not the same as being listed. A brand new address is
+unknown to Google until somebody tells Google it exists, and that has to be
+done from the company's own Google account:
+
+1. Go to **https://search.google.com/search-console**
+2. Add a property, choose **URL prefix**, and enter `https://hiramarandcosta.com`
+3. Verify ownership. The **HTML tag** method is easiest — Google gives a
+   `<meta name="google-site-verification" ...>` line; paste it into the
+   `<head>` of `index.html`, push, then press Verify.
+4. Open **Sitemaps** in the left menu and submit `sitemap.xml`
+5. Open **URL Inspection**, paste `https://hiramarandcosta.com`, and press
+   **Request indexing**
+
+Listing usually follows within a few days to a couple of weeks. It is Google's
+timing, not something the site controls.
+
+### Keep the sitemap honest
+
+`sitemap.xml` lists the five public pages by hand. If a page is ever added or
+removed, add or remove it there too, and update its `<lastmod>` date.
+
+Changing wording through the manager does **not** need any of this — the
+sitemap points at pages, not at the words on them.
+
+---
+
 ## Project skills
 
 Three skills are installed in `.claude/skills/`, so they are available whenever

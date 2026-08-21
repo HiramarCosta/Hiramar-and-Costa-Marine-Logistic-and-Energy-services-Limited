@@ -365,7 +365,7 @@
         body.innerHTML = html || '<p class="muted">Nothing here yet.</p>';
       })
       .catch(function (err) {
-        body.innerHTML = '<p class="muted" style="color:#C0453B">Could not load: ' +
+        body.innerHTML = '<p class="muted" style="color:var(--danger-ink)">Could not load: ' +
                          esc(err.message) + '</p>';
       });
   }
@@ -421,7 +421,7 @@
       '</div>';
     })
     .catch(function (err) {
-      body.innerHTML = '<p class="muted" style="color:#C0453B">Could not load: ' +
+      body.innerHTML = '<p class="muted" style="color:var(--danger-ink)">Could not load: ' +
                        esc(err.message) + '</p>';
     });
   }
@@ -578,7 +578,7 @@
           '</div>';
       })
       .catch(function (err) {
-        host.innerHTML = '<p class="muted" style="color:#C0453B">Could not load: ' +
+        host.innerHTML = '<p class="muted" style="color:var(--danger-ink)">Could not load: ' +
                          esc(err.message) + '</p>';
       });
 
@@ -681,7 +681,7 @@
     return API.select('enquiries', { order: 'created_at.desc', limit: 500 })
       .then(function (rows) { enquiries = rows || []; renderEnquiries(); })
       .catch(function (err) {
-        list.innerHTML = '<p class="muted" style="color:#C0453B">Could not load: ' +
+        list.innerHTML = '<p class="muted" style="color:var(--danger-ink)">Could not load: ' +
                          esc(err.message) + '</p>';
       });
   }
@@ -847,7 +847,7 @@
         wrap.innerHTML = listings.map(equipRowHTML).join('');
       })
       .catch(function (err) {
-        wrap.innerHTML = '<p class="muted" style="color:#C0453B">Could not load: ' +
+        wrap.innerHTML = '<p class="muted" style="color:var(--danger-ink)">Could not load: ' +
                          esc(err.message) + '</p>';
       });
   }

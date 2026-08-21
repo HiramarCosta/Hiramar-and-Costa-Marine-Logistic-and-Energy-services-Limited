@@ -24,6 +24,57 @@
   --hairline:   rgba(0, 80, 32, .16);
   --hairline-d: rgba(255, 255, 255, .14);
 
+  /* --- theme roles ------------------------------------------------
+     The brand colours above are fixed: forest, emerald and brass are
+     the company's, and they are the same colours in either theme.
+     What changes between light and dark is not the palette but the
+     *job* each colour is doing — which green can be read as type,
+     which surface a card sits on, how dark the ground is.
+
+     The tokens below name those jobs. In light they resolve to
+     exactly the values the site has always used, so nothing about
+     the light theme moves. The dark block at the foot of this file
+     is the only place they are given different values, which makes
+     it the only place the second theme is described.
+
+     Brand fills — a forest panel, an emerald button, the capability
+     strip — are deliberately NOT in here. They carry white type on a
+     saturated ground and read the same either way, so they go on
+     using the brand tokens directly.
+     ---------------------------------------------------------------- */
+  --green-ink:      var(--forest);       /* green set as type on the page ground */
+  --green-ink-deep: var(--forest-deep);  /* the Core Services heading tone        */
+  --green-mark:     var(--emerald);      /* rules, markers, eyebrows, small labels */
+  --brass-ink:      var(--brass);        /* brass set as type or as an edge        */
+
+  --masthead:   rgba(234, 245, 238, .82);  /* the bar's own translucent ground */
+  --edge-firm:  rgba(0, 80, 32, .35);      /* ghost button border              */
+  --edge-tint:  rgba(0, 80, 32, .06);      /* ghost button hover fill          */
+  --code-tint:  rgba(0, 80, 32, .09);      /* inline code in the manager       */
+  --brass-tint: rgba(198, 149, 47, .09);   /* the note beneath the listings    */
+  --ok-tint:    rgba(8, 168, 72, .12);     /* the form's success message       */
+  --focus:      var(--emerald);            /* the focus ring                   */
+
+  --danger:      #C0453B;                  /* a field that is wrong            */
+  --danger-ink:  #8E2E26;                  /* what it says                     */
+  --danger-tint: rgba(192, 69, 59, .04);   /* the field's own fill             */
+  --danger-tint2:rgba(192, 69, 59, .10);   /* the form's failure message       */
+
+  /* Lift. On the pale ground a shadow is the hull green at low
+     opacity; on the dark one it has to be near-black to register. */
+  --lift-drawer: 0 24px 48px rgba(4, 35, 21, .14);
+  --lift-panel:  0 22px 44px rgba(4, 35, 21, .11);
+  --lift-card:   0 24px 46px rgba(4, 35, 21, .14);
+  --lift-plate:  0 20px 44px rgba(4, 35, 21, .18);
+
+  /* Tells the browser which way the page reads, so native furniture
+     — scrollbars, select menus, the caret — comes out to match. */
+  color-scheme: light;
+  /* Checkboxes and radios are drawn by the browser, and the one colour
+     it will take from us is this. Brand green rather than the system
+     blue, in either theme. */
+  accent-color: var(--green-mark);
+
   /* --- type --- */
   --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --body:    'Source Serif 4', Georgia, 'Times New Roman', serif;
@@ -156,7 +207,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 }
 
 :focus-visible {
-  outline: 3px solid var(--emerald);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -175,7 +226,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
    ============================================================= */
 .masthead {
   position: sticky; top: 0; z-index: 90;
-  background: rgba(234, 245, 238, .82);
+  background: var(--masthead);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid var(--hairline);
@@ -204,7 +255,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   text-transform: uppercase;
   letter-spacing: .07em;
   text-decoration: none;
-  color: var(--forest);
+  color: var(--green-ink);
   padding: 6px 0;
   position: relative;
   white-space: nowrap;
@@ -212,7 +263,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .nav__link::after {
   content: '';
   position: absolute; left: 0; bottom: 0;
-  width: 0; height: 2px; background: var(--emerald);
+  width: 0; height: 2px; background: var(--green-mark);
   transition: width .26s var(--ease);
 }
 .nav__link:hover::after, .nav__link.is-active::after { width: 100%; }
@@ -241,10 +292,10 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 }
 .btn--solid:hover { background: var(--forest); transform: translateY(-2px); }
 .btn--ghost {
-  background: transparent; color: var(--forest);
-  border-color: rgba(0, 80, 32, .35);
+  background: transparent; color: var(--green-ink);
+  border-color: var(--edge-firm);
 }
-.btn--ghost:hover { border-color: var(--forest); background: rgba(0,80,32,.06); transform: translateY(-2px); }
+.btn--ghost:hover { border-color: var(--green-ink); background: var(--edge-tint); transform: translateY(-2px); }
 .btn--onDark {
   background: transparent; color: #fff;
   border-color: rgba(255,255,255,.42);
@@ -263,7 +314,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 }
 .burger span {
   display: block; height: 2px; width: 100%;
-  background: var(--forest);
+  background: var(--green-ink);
   transition: transform .3s var(--ease), opacity .2s var(--ease);
 }
 .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -271,11 +322,99 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 @media (min-width: 1120px) { .burger { display: none; } }
 
+/* ---------- light / dark ----------
+   Sits beside the call to action, and is the one control in the bar
+   that never goes away: on the phone the quote button is hidden and
+   the nav folds into the drawer, but the switch stays out where it
+   can be reached. Square, and the same 44px as the hamburger beside
+   it, so the two read as a pair and both clear the minimum touch
+   target.
+
+   Both marks are in the button at once and cross over between them —
+   the sun rises as the moon sets. Which one is showing says which
+   theme is on; the aria-label, which theme.js rewrites on every
+   switch, says what pressing it will do. */
+.themetoggle {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;
+  width: 44px; height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  color: var(--green-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .25s var(--ease), border-color .25s var(--ease),
+              background .25s var(--ease);
+}
+.themetoggle:hover {
+  border-color: var(--green-ink);
+  background: var(--edge-tint);
+}
+/* The ring the rest of the site uses, stated here as well so it is
+   never lost to the bar's overflow or to a later border rule. */
+.themetoggle:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* The manager's bar is the deep hull green in either theme, so the
+   switch standing in it is light-on-dark in either theme too. It also
+   takes the height of the small buttons standing beside it rather than
+   the 44px it uses in the site header — the manager's bar sizes itself
+   to its tallest child, and two pixels of extra height there would push
+   every page in the manager down by two pixels for no reason. */
+.themetoggle--onDark {
+  width: 42px; height: 42px;
+  color: #fff;
+  border-color: rgba(255, 255, 255, .42);
+}
+.themetoggle--onDark:hover {
+  color: var(--abyss);
+  background: #fff;
+  border-color: #fff;
+}
+
+.themetoggle__icon {
+  position: absolute;
+  width: 21px; height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity .3s var(--ease), transform .45s var(--ease);
+}
+/* Light is on: the sun is up. */
+.themetoggle__icon--sun  { opacity: 1; transform: none; }
+.themetoggle__icon--moon { opacity: 0; transform: rotate(-70deg) scale(.45); }
+/* Dark is on: it has set, and the moon is out. */
+[data-theme="dark"] .themetoggle__icon--sun  { opacity: 0; transform: rotate(70deg) scale(.45); }
+[data-theme="dark"] .themetoggle__icon--moon { opacity: 1; transform: none; }
+
+/* The two logos live in the bar together — the artwork as drawn, and
+   the same lockup with the forest half lifted to mint so it reads on
+   a dark ground. Only one is ever lit, and they cross over with the
+   rest of the page rather than snapping. The pair is stacked rather
+   than laid out side by side, so the bar's width is set by one logo,
+   not two. */
+.brand { position: relative; }
+.brand__logo { transition: opacity .3s var(--ease); }
+.brand__logo--dark {
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+[data-theme="dark"] .brand__logo--light { opacity: 0; }
+[data-theme="dark"] .brand__logo--dark  { opacity: 1; }
+
 .drawer {
   position: fixed; inset: 78px 0 auto 0; z-index: 80;
   background: var(--paper);
   border-bottom: 1px solid var(--hairline);
-  box-shadow: 0 24px 48px rgba(4,35,21,.14);
+  box-shadow: var(--lift-drawer);
   display: grid; gap: 2px;
   padding: 14px var(--gut) 24px;
   transform: translateY(-12px);
@@ -287,7 +426,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   font-family: var(--display);
   font-variation-settings: 'wdth' 100, 'wght' 700;
   text-transform: uppercase; letter-spacing: .06em;
-  font-size: 1rem; text-decoration: none; color: var(--forest);
+  font-size: 1rem; text-decoration: none; color: var(--green-ink);
   padding: 15px 4px; border-bottom: 1px solid var(--hairline);
 }
 .drawer a:last-child { border-bottom: 0; }
@@ -502,12 +641,12 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .band__head { max-width: 80ch; margin-bottom: clamp(40px, 6vh, 68px); }
 .band__eyebrow {
   display: flex; align-items: center; gap: 12px;
-  color: var(--emerald);
+  color: var(--green-mark);
   margin-bottom: 20px;
 }
 .band__eyebrow::before {
   content: ''; width: 34px; height: 2px;
-  background: var(--brass); flex: 0 0 auto;
+  background: var(--brass-ink); flex: 0 0 auto;
 }
 .band--dark .band__eyebrow, .band--forest .band__eyebrow { color: var(--brass-lt); }
 
@@ -515,14 +654,14 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   font-variation-settings: 'wdth' 106, 'wght' 800;
   text-transform: uppercase;
   font-size: var(--fs-h2);
-  color: var(--forest);
+  color: var(--green-ink);
   line-height: var(--lh-h2);
   text-wrap: balance;
 }
 .band--dark .band__title, .band--forest .band__title { color: #fff; }
 /* Core Services carries its green in the panels, so the heading
    holds the same forest tone against the white ground. */
-.band__title--forest { color: var(--forest-deep); }
+.band__title--forest { color: var(--green-ink-deep); }
 
 .band__lede {
   margin-top: 18px;
@@ -589,7 +728,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 
 .about__prose p { margin: 0 0 1.15em; }
 .about__prose p:last-child { margin-bottom: 0; }
-.about__prose strong { color: var(--forest); font-weight: 700; }
+.about__prose strong { color: var(--green-ink); font-weight: 700; }
 .about__prose .lead {
   font-size: 1.22rem;
   line-height: 1.55;
@@ -602,7 +741,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   font-size: 3.5em;
   line-height: .78;
   padding: .06em .12em 0 0;
-  color: var(--emerald);
+  color: var(--green-mark);
 }
 
 /* credential card — styled like a ship's registry plate */
@@ -615,7 +754,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   padding: 30px 28px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 44px rgba(4,35,21,.18);
+  box-shadow: var(--lift-plate);
 }
 .plate::after {
   content: '';
@@ -709,7 +848,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 }
 .svc__col:hover {
   transform: translateY(-5px);
-  box-shadow: 0 22px 44px rgba(4,35,21,.11);
+  box-shadow: var(--lift-panel);
   border-top-color: var(--brass);
 }
 .band--mint .svc__col { background: var(--paper); }
@@ -725,7 +864,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   text-transform: uppercase;
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
-  color: var(--forest);
+  color: var(--green-ink);
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--hairline);
@@ -751,7 +890,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   content: '';
   position: absolute; left: 0; top: 1.32em;
   width: 9px; height: 1px;
-  background: var(--emerald);
+  background: var(--green-mark);
 }
 
 /* =============================================================
@@ -776,7 +915,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   cursor: pointer;
   transition: background .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease);
 }
-.chip:hover { border-color: var(--emerald); color: var(--forest); }
+.chip:hover { border-color: var(--green-mark); color: var(--green-ink); }
 .chip.is-on { background: var(--forest); border-color: var(--forest); color: #fff; }
 
 .equip__grid {
@@ -792,7 +931,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   display: flex; flex-direction: column;
   transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
-.card:hover { transform: translateY(-5px); box-shadow: 0 24px 46px rgba(4,35,21,.14); }
+.card:hover { transform: translateY(-5px); box-shadow: var(--lift-card); }
 
 .card__media {
   position: relative;
@@ -823,7 +962,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   text-transform: uppercase;
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
-  color: var(--forest);
+  color: var(--green-ink);
   margin-bottom: 12px;
 }
 /* Optional description under a group heading, when one is written
@@ -900,7 +1039,7 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .card__price {
   font-family: var(--display);
   font-variation-settings: 'wdth' 100, 'wght' 800;
-  color: var(--brass);
+  color: var(--brass-ink);
   font-size: 1.02rem;
   font-variant-numeric: lining-nums;
 }
@@ -916,8 +1055,8 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .equip__note {
   margin-top: 26px;
   padding: 16px 20px;
-  border-left: 3px solid var(--brass);
-  background: rgba(198,149,47,.09);
+  border-left: 3px solid var(--brass-ink);
+  background: var(--brass-tint);
   color: var(--ink-soft);
   font-size: .9rem;
 }
@@ -940,9 +1079,9 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .field label {
   font-family: var(--mono);
   font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--forest);
+  color: var(--green-ink);
 }
-.field label .req { color: var(--brass); }
+.field label .req { color: var(--brass-ink); }
 .field input, .field textarea, .field select {
   font-family: var(--body);
   font-size: 1rem;
@@ -957,10 +1096,10 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
 .field textarea { resize: vertical; min-height: 150px; line-height: 1.55; }
 .field input:focus, .field textarea:focus, .field select:focus {
   outline: none;
-  border-color: var(--emerald);
+  border-color: var(--green-mark);
   box-shadow: 0 0 0 3px rgba(8,168,72,.16);
 }
-.field input:invalid:not(:placeholder-shown) { border-color: #C0453B; }
+.field input:invalid:not(:placeholder-shown) { border-color: var(--danger); }
 
 /* --- what the visitor is told when a field is wrong --- */
 .field__err {
@@ -968,17 +1107,17 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   font-family: var(--mono);
   font-size: .72rem;
   line-height: 1.45;
-  color: #8E2E26;
+  color: var(--danger-ink);
   display: none;
 }
 .field.is-bad .field__err { display: block; }
 .field.is-bad input,
 .field.is-bad select,
-.field.is-bad textarea { border-color: #C0453B; background: rgba(192,69,59,.04); }
+.field.is-bad textarea { border-color: var(--danger); background: var(--danger-tint); }
 .field.is-bad input:focus,
 .field.is-bad select:focus,
 .field.is-bad textarea:focus {
-  border-color: #C0453B;
+  border-color: var(--danger);
   box-shadow: 0 0 0 3px rgba(192,69,59,.16);
 }
 
@@ -987,8 +1126,8 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   font-size: .92rem; display: none;
 }
 .form__status.is-shown { display: block; }
-.form__status.is-ok  { background: rgba(8,168,72,.12); border-left: 3px solid var(--emerald); color: var(--forest); }
-.form__status.is-err { background: rgba(192,69,59,.10); border-left: 3px solid #C0453B; color: #8E2E26; }
+.form__status.is-ok  { background: var(--ok-tint); border-left: 3px solid var(--green-mark); color: var(--green-ink); }
+.form__status.is-err { background: var(--danger-tint2); border-left: 3px solid var(--danger); color: var(--danger-ink); }
 
 .contact__aside { display: grid; gap: 10px; }
 .contact__item {
@@ -997,14 +1136,14 @@ h4 { font-size: var(--fs-h3);   line-height: var(--lh-h3); }
   padding: 22px 24px;
   border-radius: var(--radius);
 }
-.contact__k { color: var(--emerald); display: block; margin-bottom: 8px; }
+.contact__k { color: var(--green-mark); display: block; margin-bottom: 8px; }
 .contact__v {
   font-family: var(--display);
   font-variation-settings: 'wdth' 100, 'wght' 700;
-  font-size: 1.02rem; color: var(--forest);
+  font-size: 1.02rem; color: var(--green-ink);
   text-decoration: none; word-break: break-word;
 }
-a.contact__v:hover { color: var(--emerald); }
+a.contact__v:hover { color: var(--green-mark); }
 
 /* --- WhatsApp: the second way in, beside the form --- */
 .contact__wa { display: grid; gap: 14px; justify-items: start; }
@@ -1127,14 +1266,30 @@ a.contact__v:hover { color: var(--emerald); }
   }
   .capstrip__item .u-mono { font-size: .62rem; letter-spacing: .09em; }
   .band__title  { font-variation-settings: 'wdth' 98, 'wght' 800; }
-  .brand__logo  { height: 34px; }
+  /* Not a set height any more. The bar has one more fixed-width
+     control in it, so on the narrowest phones the lockup has to be
+     able to give way — max-height with max-width, and the width and
+     height both auto, scales it down in proportion rather than
+     letting it overflow the bar or squash. */
+  .brand__logo  { width: auto; height: auto; max-height: 34px; max-width: 100%; }
   .mv__h, .svc__h, .card__title { font-variation-settings: 'wdth' 96, 'wght' 800; }
   .plate { position: static; }
   .card__spec li { font-size: .64rem; }
 }
 
+@media (max-width: 720px) {
+  /* The quote button is hidden below 720px and the nav is in the
+     drawer, so the bar is the lockup, the switch and the hamburger.
+     The 24px gap was drawn for a bar with fewer things in it. */
+  .masthead__inner { gap: 12px; }
+  .brand { flex: 0 1 auto; min-width: 0; padding-right: 0; }
+}
+
 @media (max-width: 400px) {
   .btn { padding: 13px 20px; font-size: .76rem; }
+  .masthead__inner { gap: 9px; }
+  .themetoggle { width: 40px; height: 40px; }
+  .themetoggle__icon { width: 19px; height: 19px; }
 }
 
 
@@ -1291,4 +1446,126 @@ a.contact__v:hover { color: var(--emerald); }
   }
   .card--beam:hover::after,
   .card--beam:focus-within::after { opacity: 1; }
+}
+
+
+/* =============================================================
+   DARK THEME
+   The whole of the second theme is here. theme.js puts
+   data-theme="dark" on <html> before the body is parsed, and
+   everything below follows from that one attribute.
+
+   The brand does not move. Forest, emerald and brass are the
+   company's colours and they are the same colours in the dark —
+   what changes is which of them is doing which job. The forest
+   green that sets headings on the pale ground is unreadable on a
+   dark one, so the type role moves up to a light green while the
+   fills — the quote button, the capability strip, the forest
+   service panels — go on being brand forest and brand emerald
+   with white type, exactly as before.
+
+   The grounds are built out of the hull green the logo was
+   sampled from rather than out of grey, so the dark theme is
+   recognisably the same company: the page sits on #0A2617, cards
+   and panels rise off it on #10301F, and the bands that are
+   already dark in the light theme go deeper still so they keep
+   reading as bands.
+   ============================================================= */
+[data-theme="dark"] {
+  /* --- grounds and type --- */
+  --mint:       #0A2617;   /* the page ground                    */
+  --mint-deep:  #082013;   /* a well cut into it                 */
+  --paper:      #10301F;   /* cards, panels, fields — raised     */
+  --ink:        #E8F3EC;
+  --ink-soft:   #A3BCAE;
+  --hairline:   rgba(255, 255, 255, .13);
+
+  --abyss:      #03150C;   /* footer, dark bands, the plate      */
+  --abyss-2:    #061D11;
+
+  /* --- the brand, doing its jobs on a dark ground --- */
+  --green-ink:      #4FD98C;
+  --green-ink-deep: #4FD98C;
+  --green-mark:     var(--emerald-lt);
+  --brass-ink:      var(--brass-lt);
+
+  --masthead:   rgba(10, 38, 23, .82);
+  --edge-firm:  rgba(255, 255, 255, .30);
+  --edge-tint:  rgba(255, 255, 255, .07);
+  --code-tint:  rgba(255, 255, 255, .08);
+  --brass-tint: rgba(224, 179, 85, .11);
+  --ok-tint:    rgba(46, 204, 113, .14);
+  --focus:      var(--emerald-lt);
+
+  --danger:      #E5695E;
+  --danger-ink:  #FFA79C;
+  --danger-tint: rgba(229, 105, 94, .10);
+  --danger-tint2:rgba(229, 105, 94, .14);
+
+  /* Hull green at low opacity disappears against a dark ground;
+     lift has to be cut out of black here to register at all. */
+  --lift-drawer: 0 24px 48px rgba(0, 0, 0, .55);
+  --lift-panel:  0 22px 44px rgba(0, 0, 0, .45);
+  --lift-card:   0 24px 46px rgba(0, 0, 0, .50);
+  --lift-plate:  0 20px 44px rgba(0, 0, 0, .48);
+
+  color-scheme: dark;
+}
+
+/* The service panels sit on the page ground rather than on white
+   now, and 3% white is not enough to separate a card from it.
+   The hairline they share with everything else does the work. */
+[data-theme="dark"] .svc--forest .svc__col { border-color: var(--hairline); }
+
+/* The equipment beam opened on forest, which on a dark card is the
+   ground itself — the light appeared to start halfway along. It
+   opens on the light green instead, so the full pass reads. */
+[data-theme="dark"] .card--beam::after {
+  background: conic-gradient(from var(--beam-angle) at 50% 50%,
+    transparent 0turn, transparent .60turn,
+    var(--emerald) .76turn, var(--emerald-lt) .84turn,
+    var(--brass-lt) .92turn, transparent 1turn);
+}
+
+/* The photograph behind the hero is graded for a dark scrim and
+   needs nothing; the map is a real map and stays a real map. Both
+   are left alone deliberately. */
+
+
+/* =============================================================
+   THE SWITCH ITSELF
+   Colour is spread across a few hundred declarations, and giving
+   every one of them a standing transition would cost something on
+   every hover and every scroll for the sake of one click.
+
+   Instead the transition is lent to the page only while the switch
+   is happening: theme.js puts .theme-switching on <html>, flips the
+   attribute, and takes the class off again once the crossfade is
+   done. At rest nothing here applies, so no existing transition on
+   the site is touched.
+
+   It is stated inside a no-preference query because the rule is
+   more specific than the reduced-motion block further up and would
+   otherwise beat it.
+   ============================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: background-color .4s var(--ease),
+                border-color     .4s var(--ease),
+                color            .4s var(--ease),
+                fill             .4s var(--ease),
+                stroke           .4s var(--ease),
+                box-shadow       .4s var(--ease),
+                opacity          .4s var(--ease),
+                outline-color    .4s var(--ease) !important;
+    transition-delay: 0s !important;
+  }
+  /* The sun and moon swap on transform, which the blanket rule
+     above does not carry. More specific, so it wins it back. */
+  .theme-switching .themetoggle__icon {
+    transition: opacity .3s var(--ease), transform .45s var(--ease) !important;
+  }
 }

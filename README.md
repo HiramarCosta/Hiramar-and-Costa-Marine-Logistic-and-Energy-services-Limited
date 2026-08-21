@@ -316,6 +316,32 @@ state, how to verify, what was deferred, where to pick up.
   the depth scale painted on every hull, visible on the jack-up legs in the hero
   photograph. It doubles as the scroll position indicator.
 
+### Light and dark
+
+The switch sits in the header, beside **Request a Quote**, and is on every
+page including the manager. A sun means the light theme is on, a moon means
+the dark one; the button's label always says what pressing it will do.
+
+- **First visit** follows the device. A phone or laptop set to dark opens the
+  site dark, without anyone doing anything.
+- **After that the visitor's own choice wins**, on every page and every later
+  visit. It is kept in the browser under `hc-theme` — there is no Supabase
+  table for it, and it does not need one.
+- The choice is applied before the page is drawn, so nothing flashes on load.
+
+The brand does not change between the two. Forest, emerald and brass are the
+same colours in the dark — what changes is which of them is doing which job,
+and the whole of that is one block at the foot of `assets/css/styles.css`
+marked **DARK THEME**. Adding a colour anywhere in the site means reaching for
+one of the role tokens defined at the top of the same file (`--green-ink`,
+`--paper`, `--ink-soft` and so on) rather than writing a hex value, and the
+dark theme then follows on its own.
+
+The masthead carries the lockup twice — `logo-lockup.png` as drawn, and
+`logo-lockup-dark.png`, the same artwork with the forest half lifted to pale
+mint so it reads on a dark bar. The anchor and the subtitle keep their emerald
+in both. If the logo is ever redrawn, regenerate the dark one to match.
+
 ### Swapping the hero photograph
 
 Replace `assets/img/hero.jpg`. Use a wide, high-resolution image with the

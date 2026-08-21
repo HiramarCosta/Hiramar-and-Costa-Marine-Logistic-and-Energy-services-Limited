@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
+<meta name="theme-color" content="#005020">
+<script src="assets/js/theme.js"></script>
 <style>
   .admin-top {
     background: var(--abyss); color: #fff;
@@ -53,7 +55,7 @@
   .panel__h {
     font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
     text-transform: uppercase; font-size: var(--fs-h3); line-height: var(--lh-h3);
-    color: var(--forest); margin: 0 0 6px;
+    color: var(--green-ink); margin: 0 0 6px;
   }
   .panel__sub { color: var(--ink-soft); margin: 0 0 22px; font-size: .94rem; }
 
@@ -67,7 +69,7 @@
     padding: 26px; text-align: center; cursor: pointer; background: var(--mint);
     transition: border-color .2s var(--ease), background .2s var(--ease);
   }
-  .drop:hover, .drop.is-over { border-color: var(--emerald); background: rgba(8,168,72,.07); }
+  .drop:hover, .drop.is-over { border-color: var(--green-mark); background: var(--ok-tint); }
   .drop input { display: none; }
   .drop__preview { max-height: 180px; margin: 0 auto 12px; border-radius: var(--radius); }
 
@@ -82,7 +84,7 @@
   .rowitem__main { flex: 1; min-width: 0; }
   .rowitem__name {
     font-family: var(--display); font-variation-settings: 'wdth' 100, 'wght' 700;
-    color: var(--forest); font-size: .96rem;
+    color: var(--green-ink); font-size: .96rem;
   }
   .rowitem__meta { font-family: var(--mono); font-size: .62rem; letter-spacing: .09em;
     text-transform: uppercase; color: var(--ink-soft); margin-top: 4px;
@@ -94,9 +96,9 @@
     padding: 7px 11px; border-radius: 2px; cursor: pointer;
     border: 1px solid var(--hairline); background: transparent; color: var(--ink-soft);
   }
-  .mini:hover { border-color: var(--forest); color: var(--forest); }
-  .mini--danger:hover { border-color: #C0453B; color: #C0453B; }
-  .mini--go { border-color: var(--emerald); color: var(--forest); }
+  .mini:hover { border-color: var(--green-ink); color: var(--green-ink); }
+  .mini--danger:hover { border-color: var(--danger); color: var(--danger-ink); }
+  .mini--go { border-color: var(--green-mark); color: var(--green-ink); }
   .mini[disabled] { opacity: .5; cursor: default; }
 
   /* ---- editable record cards ---- */
@@ -123,7 +125,7 @@
   }
   .rec textarea { min-height: 86px; resize: vertical; line-height: 1.55; }
   .rec input:focus, .rec textarea:focus, .rec select:focus {
-    outline: 2px solid var(--emerald); outline-offset: 1px; border-color: transparent;
+    outline: 2px solid var(--focus); outline-offset: 1px; border-color: transparent;
   }
   /* .field in the site stylesheet stacks its children; checkboxes read
      as a row, so the direction is set back here. */
@@ -132,34 +134,38 @@
   .rec__check label { margin: 0; }
   .rec__acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
   .rec__note { font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
-    text-transform: uppercase; color: var(--emerald); }
-  .rec__note--err { color: #C0453B; }
+    text-transform: uppercase; color: var(--green-mark); }
+  .rec__note--err { color: var(--danger-ink); }
 
-  .group { border-left: 3px solid var(--emerald); padding-left: 16px; margin-bottom: 26px; }
+  .group { border-left: 3px solid var(--green-mark); padding-left: 16px; margin-bottom: 26px; }
   .group__h { font-family: var(--display); font-variation-settings: 'wdth' 102, 'wght' 750;
-    text-transform: uppercase; font-size: .92rem; color: var(--forest); margin: 0 0 12px; }
+    text-transform: uppercase; font-size: .92rem; color: var(--green-ink); margin: 0 0 12px; }
 
   /* ---- enquiries ---- */
   .enq { border: 1px solid var(--hairline); border-radius: var(--radius);
     padding: 15px 17px; margin-bottom: 11px; background: var(--paper); }
-  .enq.is-new { border-left: 3px solid var(--emerald); }
+  .enq.is-new { border-left: 3px solid var(--green-mark); }
   .enq__top { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
   .enq__who { font-family: var(--display); font-variation-settings: 'wdth' 100, 'wght' 700;
-    color: var(--forest); font-size: 1rem; }
+    color: var(--green-ink); font-size: 1rem; }
   .enq__when { font-family: var(--mono); font-size: .6rem; letter-spacing: .09em;
     text-transform: uppercase; color: var(--ink-soft); margin-left: auto; }
   .pill {
     font-family: var(--mono); font-size: .56rem; letter-spacing: .11em; text-transform: uppercase;
     padding: 3px 9px; border-radius: 20px; border: 1px solid var(--hairline); color: var(--ink-soft);
   }
-  .pill--quote     { border-color: var(--brass);   color: #8A6416; background: rgba(198,149,47,.11); }
-  .pill--equipment { border-color: var(--emerald); color: var(--forest); background: rgba(8,168,72,.10); }
-  .pill--team      { border-color: var(--forest);  color: var(--forest); background: rgba(0,80,32,.07); }
-  .pill--new       { border-color: var(--emerald); color: var(--forest); background: rgba(8,168,72,.14); }
+  .pill--quote     { border-color: var(--brass-ink);  color: #8A6416;        background: var(--brass-tint); }
+  .pill--equipment { border-color: var(--green-mark); color: var(--green-ink); background: var(--ok-tint); }
+  .pill--team      { border-color: var(--green-ink);  color: var(--green-ink); background: var(--edge-tint); }
+  .pill--new       { border-color: var(--green-mark); color: var(--green-ink); background: var(--ok-tint); }
+  /* Brass is legible as an edge on either ground but not as type on
+     the pale one, which is why the light theme sets this darker. On
+     the dark ground the opposite is true. */
+  [data-theme="dark"] .pill--quote { color: var(--brass-lt); }
   .enq__body { margin: 11px 0 0; white-space: pre-wrap; line-height: 1.6; }
   .enq__meta { font-family: var(--mono); font-size: .62rem; letter-spacing: .06em;
     color: var(--ink-soft); margin-top: 9px; overflow-wrap: anywhere; }
-  .enq__meta a { color: var(--forest); }
+  .enq__meta a { color: var(--green-ink); }
   .enq__acts { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 13px; align-items: center; }
 
   .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 18px; }
@@ -188,13 +194,13 @@
   details.panel > summary {
     cursor: pointer; list-style: none;
     font-family: var(--display); font-variation-settings: 'wdth' 104, 'wght' 800;
-    text-transform: uppercase; font-size: 1rem; color: var(--forest);
+    text-transform: uppercase; font-size: 1rem; color: var(--green-ink);
   }
   details.panel > summary::-webkit-details-marker { display: none; }
-  details.panel > summary::before { content: '+ '; color: var(--emerald); }
+  details.panel > summary::before { content: '+ '; color: var(--green-mark); }
   details.panel[open] > summary::before { content: '– '; }
   .setup code { font-family: var(--mono); font-size: .84rem;
-    background: rgba(0,80,32,.09); padding: 2px 6px; border-radius: 2px; }
+    background: var(--code-tint); padding: 2px 6px; border-radius: 2px; }
   .setup ol { margin: 14px 0 0; padding-left: 20px; }
   .setup li { margin-bottom: 9px; }
 
@@ -213,6 +219,18 @@
       <span class="admin-top__title">Website Manager</span>
     </a>
     <span class="admin-who hidden" id="whoAmI"></span>
+    <button class="themetoggle themetoggle--onDark" type="button" data-theme-toggle
+            aria-label="Switch to dark theme" title="Switch to dark theme">
+      <svg class="themetoggle__icon themetoggle__icon--sun" viewBox="0 0 24 24"
+           aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.4v2.6M12 19v2.6M4.2 12H1.6M22.4 12h-2.6M6.5 6.5 4.6 4.6M19.4 19.4l-1.9-1.9M17.5 6.5l1.9-1.9M4.6 19.4l1.9-1.9"/>
+      </svg>
+      <svg class="themetoggle__icon themetoggle__icon--moon" viewBox="0 0 24 24"
+           aria-hidden="true" focusable="false">
+        <path d="M20.5 14.4A8.6 8.6 0 1 1 9.6 3.5a6.9 6.9 0 0 0 10.9 10.9Z"/>
+      </svg>
+    </button>
     <a class="btn btn--onDark btn--sm" href="index.html">View site</a>
     <button class="btn btn--onDark btn--sm hidden" id="signOut" type="button">Sign out</button>
   </div>
